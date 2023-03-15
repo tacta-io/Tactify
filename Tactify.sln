@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tactify.Core", "Tactify.Core\Tactify.Core.csproj", "{938F49CC-909F-42AD-8AEE-7A3C0BB8CD80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tactify.Core.Test", "Tactify.Core.Test\Tactify.Core.Test.csproj", "{E1EDB78D-D20C-4509-9BD2-2394D9D4C813}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{938F49CC-909F-42AD-8AEE-7A3C0BB8CD80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{938F49CC-909F-42AD-8AEE-7A3C0BB8CD80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{938F49CC-909F-42AD-8AEE-7A3C0BB8CD80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{938F49CC-909F-42AD-8AEE-7A3C0BB8CD80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1EDB78D-D20C-4509-9BD2-2394D9D4C813}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1EDB78D-D20C-4509-9BD2-2394D9D4C813}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1EDB78D-D20C-4509-9BD2-2394D9D4C813}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1EDB78D-D20C-4509-9BD2-2394D9D4C813}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7FDFFCB9-6D07-46A2-A5A7-F9B9F1ED6925}
+	EndGlobalSection
+EndGlobal
