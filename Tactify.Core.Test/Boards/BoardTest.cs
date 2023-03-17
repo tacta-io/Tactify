@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tactify.Core.Boards;
 using Tactify.Core.Boards.DomainEvents;
+using Tactify.Core.Boards.ValueObjects;
 
 namespace Tactify.Core.Test.Boards
 {
@@ -16,7 +17,7 @@ namespace Tactify.Core.Test.Boards
             var description = "Constructiv Benefits";
 
             // When
-            var board = Board.OpenBoard(boardIdentifier, description);
+            var board = Board.OpenBoard(new BoardInformation(boardIdentifier, description));
 
             // Then
             var @event = board.DomainEvents.Single() as BoardOpened;
@@ -35,7 +36,7 @@ namespace Tactify.Core.Test.Boards
             var description = string.Empty;
 
             // When // Then
-            Assert.ThrowsException<Exception>(() => Board.OpenBoard(boardIdentifier, description));
+            Assert.ThrowsException<Exception>(() => Board.OpenBoard(new BoardInformation(boardIdentifier, description)));
         }
 
         // 3. User should not be able to create a new Board if board identifier is not provided
@@ -47,7 +48,7 @@ namespace Tactify.Core.Test.Boards
             var description = "Constructiv Benefits";
 
             // When // Then
-            Assert.ThrowsException<Exception>(() => Board.OpenBoard(boardIdentifier, description));
+            Assert.ThrowsException<Exception>(() => Board.OpenBoard(new BoardInformation(boardIdentifier, description)));
         }
 
         // 4. User should be able to create a new Sprint for a Board, and Sprint number should start from 1

@@ -1,6 +1,7 @@
 ﻿using Tacta.EventStore.Domain;
 using Tactify.Core.Boards.DomainEvents;
 using Tactify.Core.Boards.Entities;
+using Tactify.Core.Boards.ValueObjects;
 
 namespace Tactify.Core.Boards
 {
@@ -10,20 +11,20 @@ namespace Tactify.Core.Boards
 
         private bool _isArchived;
 
-        private List<Sprint> _sprints;   
-       
+        private List<Sprint> _sprints;
 
-        public static Board OpenBoard(string boardIdentifier, string description)
-        {
-            if (string.IsNullOrWhiteSpace(boardIdentifier)) throw new Exception("Board needs to have unique identifier");
+        private Board() { }
 
-            if (string.IsNullOrWhiteSpace(description)) throw new Exception("Board description is mandatory");
+        public Board(IEnumerable<IDomainEvent> events) : base(events) { }
 
+
+        public static Board OpenBoard(BoardInformation boardInformation)
+        { 
             var board = new Board();
 
-            var boardId = new BoardId(boardIdentifier);
+            var boardId = new BoardId(boardInformation.Identifier);
 
-            var @event = new BoardOpened(boardId.ToString(), description);
+            var @event = new BoardOpened(boardId.ToString(), boardInformation.Description);
 
             board.Apply(@event);
 

@@ -3,9 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tactify.Core", "Tactify.Core\Tactify.Core.csproj", "{938F49CC-909F-42AD-8AEE-7A3C0BB8CD80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tactify.Core", "Tactify.Core\Tactify.Core.csproj", "{938F49CC-909F-42AD-8AEE-7A3C0BB8CD80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tactify.Core.Test", "Tactify.Core.Test\Tactify.Core.Test.csproj", "{E1EDB78D-D20C-4509-9BD2-2394D9D4C813}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tactify.Core.Test", "Tactify.Core.Test\Tactify.Core.Test.csproj", "{E1EDB78D-D20C-4509-9BD2-2394D9D4C813}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tactify.Api", "Tactify.Api\Tactify.Api.csproj", "{0DBB9DF9-EA2D-41F1-9691-34D0B3225E2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tactify.Boundary", "Tactify.Boundary\Tactify.Boundary.csproj", "{359037D1-0F07-4D81-B21B-04ABED825404}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tactify.Sql", "Tactify.Sql\Tactify.Sql.csproj", "{4C884A04-4769-4FDD-86CD-D5CC6B46F443}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tactify.Projections", "Tactify.Projections\Tactify.Projections.csproj", "{4BF0DCFB-624A-4231-A96B-E010618438F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +29,22 @@ Global
 		{E1EDB78D-D20C-4509-9BD2-2394D9D4C813}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1EDB78D-D20C-4509-9BD2-2394D9D4C813}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1EDB78D-D20C-4509-9BD2-2394D9D4C813}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DBB9DF9-EA2D-41F1-9691-34D0B3225E2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DBB9DF9-EA2D-41F1-9691-34D0B3225E2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DBB9DF9-EA2D-41F1-9691-34D0B3225E2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DBB9DF9-EA2D-41F1-9691-34D0B3225E2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{359037D1-0F07-4D81-B21B-04ABED825404}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{359037D1-0F07-4D81-B21B-04ABED825404}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{359037D1-0F07-4D81-B21B-04ABED825404}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{359037D1-0F07-4D81-B21B-04ABED825404}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C884A04-4769-4FDD-86CD-D5CC6B46F443}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C884A04-4769-4FDD-86CD-D5CC6B46F443}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C884A04-4769-4FDD-86CD-D5CC6B46F443}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C884A04-4769-4FDD-86CD-D5CC6B46F443}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BF0DCFB-624A-4231-A96B-E010618438F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BF0DCFB-624A-4231-A96B-E010618438F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BF0DCFB-624A-4231-A96B-E010618438F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BF0DCFB-624A-4231-A96B-E010618438F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
