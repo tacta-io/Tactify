@@ -3,7 +3,7 @@
     public enum SprintStatus
     {
         Created,
-        Started,
+        Active,
         Ended
     }
 }

@@ -12,9 +12,9 @@ namespace Tactify.Core.Boards.Services
             _boardRepository = boardRepository;
         }
 
-        public async Task OpenBoard(BoardInformation boardInformation) 
+        public async Task CreateBoard(BoardInformation boardInformation) 
         {
-            var board = Board.OpenBoard(boardInformation);
+            var board = Board.CreateBoard(boardInformation);
             await _boardRepository.SaveAsync(board).ConfigureAwait(false);
         }
 

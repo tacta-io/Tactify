@@ -15,11 +15,11 @@ namespace Tactify.Api.Controllers
             _boardService = boardService;
         }
 
-        [HttpPost(Name = "OpenBoard")]     
-        public async Task<ActionResult> OpenBoard([FromBody] OpenBoardRequest openBoardRequest)
+        [HttpPost(Name = "CreateBoard")]     
+        public async Task<ActionResult> CreateBoard([FromBody] CreateBoardRequest createBoardRequest)
         {
-            var boardInformation = openBoardRequest.ToBoardInformation();
-            await _boardService.OpenBoard(boardInformation).ConfigureAwait(false);
+            var boardInformation = createBoardRequest.ToBoardInformation();
+            await _boardService.CreateBoard(boardInformation).ConfigureAwait(false);
             return Ok();
         }
     }

@@ -2,11 +2,11 @@
 
 namespace Tactify.Core.Boards.DomainEvents
 {
-    public sealed class BoardOpened : DomainEvent
+    public sealed class BoardCreated : DomainEvent
     {
         public string Description { get; }
 
-        public BoardOpened(string aggregateId, string description) : base(aggregateId)
+        public BoardCreated(string aggregateId, string description) : base(aggregateId)
         {
             Description = description;
         }

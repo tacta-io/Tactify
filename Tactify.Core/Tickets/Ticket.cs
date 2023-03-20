@@ -10,13 +10,13 @@ namespace Tactify.Core.Tickets
         public override TicketId Id { get; protected set; }
 
 
-        public static Ticket CreateTicket(string boardIdenetifer, int ticketNumber, string description)
+        public static Ticket OpenTicket(string boardIdenetifer, int ticketNumber, string description)
         {
             var ticket = new Ticket();
 
             var ticketId = new TicketId(boardIdenetifer, ticketNumber);
 
-            var @event = new TicketCreated(ticketId.ToString(), description);
+            var @event = new TicketOpened(ticketId.ToString(), description);
 
             ticket.Apply(@event);
 
@@ -51,7 +51,7 @@ namespace Tactify.Core.Tickets
             Apply(@event);
         }
 
-        public void On(TicketCreated @event)
+        public void On(TicketOpened @event)
         {
             Id = TicketId.Identity(@event.AggregateId);
         }

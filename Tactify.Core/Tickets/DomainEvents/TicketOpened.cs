@@ -2,11 +2,11 @@
 
 namespace Tactify.Core.Tickets.DomainEvents
 {
-    public sealed class TicketCreated : DomainEvent
+    public sealed class TicketOpened : DomainEvent
     {
         public string Description { get; }
 
-        public TicketCreated(string aggregateId, string description) : base(aggregateId)
+        public TicketOpened(string aggregateId, string description) : base(aggregateId)
         {
             Description = description;
         }

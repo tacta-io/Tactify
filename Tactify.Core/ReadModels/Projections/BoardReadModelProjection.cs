@@ -13,7 +13,7 @@ namespace Tactify.Core.ReadModels.Projections
             _boardReadModelRepository = boardReadModelRepository;
         }
 
-        public async Task On(BoardOpened @event)
+        public async Task On(BoardCreated @event)
         {
             var board = new BoardReadModel(
                 @event.CreatedAt,

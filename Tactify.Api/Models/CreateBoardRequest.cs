@@ -2,7 +2,7 @@
 
 namespace Tactify.Api.Models
 {
-    public class OpenBoardRequest
+    public class CreateBoardRequest
     {
         public string Identifier { get; set; }
         public string Description { get; set; }

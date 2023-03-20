@@ -18,13 +18,13 @@ namespace Tactify.Core.Boards
         public Board(IEnumerable<IDomainEvent> events) : base(events) { }
 
 
-        public static Board OpenBoard(BoardInformation boardInformation)
+        public static Board CreateBoard(BoardInformation boardInformation)
         { 
             var board = new Board();
 
             var boardId = new BoardId(boardInformation.Identifier);
 
-            var @event = new BoardOpened(boardId.ToString(), boardInformation.Description);
+            var @event = new BoardCreated(boardId.ToString(), boardInformation.Description);
 
             board.Apply(@event);
 
@@ -33,13 +33,7 @@ namespace Tactify.Core.Boards
 
         public void CreateNewSprint()
         {
-            var newSprintNumber = _sprints.Max(x => x.Id.SprintNumber) + 1;
-
-            var newSprintId = new SprintId(newSprintNumber);
-
-            var @event = new SprintCreated(Id.ToString(), newSprintId.ToString());
-
-            Apply(@event);
+            
         }
 
         public void StartNextSprint()
@@ -57,7 +51,7 @@ namespace Tactify.Core.Boards
             
         }
 
-        public void On(BoardOpened @event)
+        public void On(BoardCreated @event)
         {
             Id = BoardId.Identity(@event.AggregateId);
 
