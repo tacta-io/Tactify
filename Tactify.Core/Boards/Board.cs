@@ -13,6 +13,8 @@ namespace Tactify.Core.Boards
 
         private List<Sprint> _sprints;
 
+        public IReadOnlyList<Sprint> Sprints => _sprints.AsReadOnly();
+        
         private Board() { }
 
         public Board(IEnumerable<IDomainEvent> events) : base(events) { }
