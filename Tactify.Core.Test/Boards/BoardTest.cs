@@ -75,6 +75,32 @@ namespace Tactify.Core.Test.Boards
         }
 
 
+        // ========== CreateNewSprint ==========
+        // Sprint numbers should be incremental
+        [TestMethod]
+        public void Test5()
+        {
+            // Given
+            var boardIdentifier = "BI";
+            var description = "Constructiv Benefits";
+            var boardInformation = new BoardInformation(boardIdentifier, description);
+            var board = Board.CreateBoard(boardInformation);
+            
+            // When
+            board.CreateNewSprint();
+            board.CreateNewSprint();
+            board.CreateNewSprint();
+            board.CreateNewSprint();
+            
+            // Then
+            var sprintCreatedEvents = board.DomainEvents.OfType<SprintCreated>().ToList();
+            
+            // Then
+            Assert.IsTrue(sprintCreatedEvents.Count == 4);
+            Assert.IsTrue(sprintCreatedEvents[0].SprintId.Equals("Sprint-1"));
+            Assert.IsTrue(sprintCreatedEvents[3].SprintId.Equals("Sprint-4"));
+        }
+        
 
         // ========== StartNextSprint ==========
         // User should be able to start next Sprint only if no active Sprints
