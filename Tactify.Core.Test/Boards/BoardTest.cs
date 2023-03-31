@@ -98,6 +98,8 @@ namespace Tactify.Core.Test.Boards
             // Then
             Assert.IsTrue(sprintCreatedEvents.Count == 4);
             Assert.IsTrue(sprintCreatedEvents[0].SprintId.Equals("Sprint-1"));
+            Assert.IsTrue(sprintCreatedEvents[1].SprintId.Equals("Sprint-2"));
+            Assert.IsTrue(sprintCreatedEvents[2].SprintId.Equals("Sprint-3"));
             Assert.IsTrue(sprintCreatedEvents[3].SprintId.Equals("Sprint-4"));
         }
         
