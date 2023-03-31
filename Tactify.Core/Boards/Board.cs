@@ -33,7 +33,11 @@ namespace Tactify.Core.Boards
 
         public void CreateNewSprint()
         {
+            var lastSprintNumber = _sprints.LastOrDefault()?.Id.SprintNumber ?? 0;
+            var sprintId = new SprintId(lastSprintNumber + 1);
+            var @event = new SprintCreated(Id.ToString(), sprintId.ToString());
             
+            Apply(@event);
         }
 
         public void StartNextSprint()

@@ -57,6 +57,22 @@ namespace Tactify.Core.Test.Boards
         // User should be able to create a new Sprint for a Board, and Sprint number should start from 1
         // If Sprint-1 and Sprint-2 are already created on the Board, next one should be Sprint-3
         // User should not be able to create a new Sprint for a Board that is archived
+        [TestMethod]
+        public void Test4()
+        {
+            // Given
+            var boardIdentifier = "BI";
+            var description = "Constructiv Benefits";
+            var boardInformation = new BoardInformation(boardIdentifier, description);
+            var board = Board.CreateBoard(boardInformation);
+            
+            // When
+            board.CreateNewSprint();
+            
+            // Then
+            var eventIsCreated = board.DomainEvents.Any(e => e is SprintCreated sce && sce.SprintId == "Sprint-1");
+            Assert.IsTrue(eventIsCreated);
+        }
 
 
 
