@@ -42,7 +42,17 @@ namespace Tactify.Core.Boards
 
         public void StartNextSprint()
         {
-           
+            var isThereActiveSprint = _sprints.Any(x => x.Status == SprintStatus.Active);
+
+            if (isThereActiveSprint) throw new Exception("There is an active sprint already.");
+
+            var sprintToStart = _sprints.FirstOrDefault(x => x.Status == SprintStatus.Created);
+
+            if (sprintToStart == null) throw new Exception("No created sprints to start.");
+
+            var @event = new SprintStarted(Id.ToString(), sprintToStart.Id.ToString());
+
+            Apply(@event);
         }
 
         public void EndActiveSprint()
@@ -75,7 +85,9 @@ namespace Tactify.Core.Boards
 
         public void On(SprintStarted @event)
         {
-            
+            var sprint = _sprints.Single(x => x.Id.ToString() == @event.SprintId);
+
+            sprint.StartSprint();
         }
 
         public void On(SprintEnded @event)

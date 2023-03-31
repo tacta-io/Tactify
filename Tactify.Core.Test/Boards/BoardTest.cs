@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tactify.Core.Boards;
 using Tactify.Core.Boards.DomainEvents;
 using Tactify.Core.Boards.ValueObjects;
@@ -102,12 +103,31 @@ namespace Tactify.Core.Test.Boards
             Assert.IsTrue(sprintCreatedEvents[2].SprintId.Equals("Sprint-3"));
             Assert.IsTrue(sprintCreatedEvents[3].SprintId.Equals("Sprint-4"));
         }
-        
+
 
         // ========== StartNextSprint ==========
         // User should be able to start next Sprint only if no active Sprints
+        [TestMethod]
+        public void Test6()
+        {
+            // Given
+            var boardIdentifier = "BI";
+            var description = "Constructiv Benefits";
+            var boardInformation = new BoardInformation(boardIdentifier, description);
+            var board = Board.CreateBoard(boardInformation);
 
+            board.CreateNewSprint();
+            board.CreateNewSprint();
+            board.CreateNewSprint();
+            board.CreateNewSprint();
 
+            // When 
+            board.StartNextSprint();
+
+            // Then
+            var listOfSprintStartedEvents = board.DomainEvents.OfType<SprintStarted>().ToList();
+            listOfSprintStartedEvents.Count.Should().Be(1);
+        }
 
         // ========== EndActiveSprint ==========
         // User should be able to end active Sprint
