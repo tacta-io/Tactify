@@ -9,13 +9,29 @@ namespace Tactify.Core.Boards
     {
         public override BoardId Id { get; protected set; }
 
-        private bool _isArchived;
+        private bool IsArchived { get; set; }
 
-        private List<Sprint> _sprints;
+        private List<Sprint> Sprints { get; set; }
 
-        private Board() { }
+        private Sprint? ActiveSprint => Sprints.SingleOrDefault(x => x.Status == SprintStatus.Active);
 
-        public Board(IEnumerable<IDomainEvent> events) : base(events) { }
+        private Sprint? NextSprintToStart => Sprints.OrderBy(x => x.Id.SprintNumber).FirstOrDefault(x => x.Status == SprintStatus.Created);
+
+        private int NewSprintNumber => Sprints.Any() ? Sprints.Max(x => x.Id.SprintNumber) + 1 : 1;
+
+
+
+        private Board() 
+        {
+        
+        }
+
+        public Board(IEnumerable<IDomainEvent> events) : base(events) 
+        { 
+        
+        }
+
+
 
 
         public static Board CreateBoard(BoardInformation boardInformation)
@@ -24,40 +40,69 @@ namespace Tactify.Core.Boards
 
             var boardId = new BoardId(boardInformation.Identifier);
 
-            var @event = new BoardCreated(boardId.ToString(), boardInformation.Description);
+            var @event = new BoardCreated(boardId.ToString(), boardInformation.Description, boardInformation.CreatedBy);
 
             board.Apply(@event);
 
             return board;
         }
 
-        public void CreateNewSprint()
+        public void CreateNewSprint(string createdBy)
         {
-            
+            if (IsArchived) throw new Exception($"Board {Id} is archived.");           
+
+            var sprintId = new SprintId(NewSprintNumber);
+
+            var @event = new SprintCreated(Id.ToString(), sprintId.ToString(), createdBy);
+
+            Apply(@event);
         }
 
-        public void StartNextSprint()
+        public void StartNextSprint(string createdBy)
         {
-           
+            if (IsArchived) throw new Exception($"Board {Id} is archived.");
+
+            if (ActiveSprint != null) throw new Exception($"There is already active sprint {ActiveSprint.Id}.");
+
+            if (NextSprintToStart == null) throw new Exception($"There is no created sprint to start.");
+
+            var @event = new SprintStarted(Id.ToString(), NextSprintToStart.Id.ToString(), createdBy);
+
+            Apply(@event);
         }
 
-        public void EndActiveSprint()
+        public void EndActiveSprint(string createdBy)
         {
-            
+            if (IsArchived) throw new Exception($"Board {Id} is archived.");
+
+            if (ActiveSprint == null) throw new Exception($"There is no active sprint to end.");
+
+            var @event = new SprintEnded(Id.ToString(), ActiveSprint.Id.ToString(), createdBy);
+
+            Apply(@event);
         }
 
-        public void ArchiveBoard()
+        public void ArchiveBoard(string createdBy)
         {
-            
+            if (IsArchived) throw new Exception($"Board {Id} is already archived.");
+
+            if (ActiveSprint != null) throw new Exception($"There is active sprint {ActiveSprint.Id} on the board {Id}.");
+
+            var @event = new BoardArchived(Id.ToString(), createdBy);
+
+            Apply(@event);
         }
+
+
+
 
         public void On(BoardCreated @event)
         {
             Id = BoardId.Identity(@event.AggregateId);
 
-            _sprints = new List<Sprint>();
+            Sprints = new List<Sprint>();
 
-            _isArchived = false;
+            IsArchived = false;
         }
 
         public void On(SprintCreated @event)
@@ -66,22 +111,26 @@ namespace Tactify.Core.Boards
 
             var sprint = new Sprint(sprintId);
 
-            _sprints.Add(sprint);
+            Sprints.Add(sprint);
         }
 
         public void On(SprintStarted @event)
         {
-            
+            var sprint = Sprints.Single(x => x.Id.ToString() == @event.SprintId);
+
+            sprint.StartSprint();
         }
 
         public void On(SprintEnded @event)
         {
-            
+            var sprint = Sprints.Single(x => x.Id.ToString() == @event.SprintId);
+
+            sprint.EndSprint();
         }
 
         public void On(BoardArchived _)
         {
-            
+            IsArchived = true;
         }
     }
 }

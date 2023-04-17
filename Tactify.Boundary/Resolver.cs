@@ -3,8 +3,12 @@ using Tacta.EventStore.Projector;
 using Tacta.EventStore.Repository;
 using Tactify.Core.Boards.Repositories;
 using Tactify.Core.Boards.Services;
-using Tactify.Core.ReadModels.Projections;
-using Tactify.Core.ReadModels.Repositories;
+using Tactify.Core.ReadModels.BoardReadModels.Projections;
+using Tactify.Core.ReadModels.BoardReadModels.Repositories;
+using Tactify.Core.ReadModels.BoardReadModels.Services;
+using Tactify.Core.ReadModels.SprintReadModels.Projections;
+using Tactify.Core.ReadModels.SprintReadModels.Repositories;
+using Tactify.Core.ReadModels.SprintReadModels.Services;
 using Tactify.Sql;
 using Tactify.Sql.Repositories;
 
@@ -12,24 +16,34 @@ namespace Tactify.Boundary
 {
     public static class Resolver
     {
-        public static void AddRepositories(this IServiceCollection services)
-        {                  
-            var connectionString = "Data Source=localhost\\SQLEXPRESS;Initial Catalog=Tactify;Integrated Security=true;TrustServerCertificate=True;";
+        private static readonly string connectionString =
+            "Data Source=localhost\\SQLEXPRESS;Initial Catalog=Tactify;Integrated Security=true;TrustServerCertificate=True;";
+
+        public static void AddEventStore(this IServiceCollection services)
+        {
             services.AddTransient<ISqlConnectionFactory>(sp => new SqlConnectionFactory(connectionString));
-            services.AddTransient<IEventStoreRepository, EventStoreRepository>();           
-            services.AddTransient<IBoardRepository, BoardRepository>();
-            services.AddTransient<IBoardReadModelRepository, BoardReadModelRepository>();
+            services.AddTransient<IEventStoreRepository, EventStoreRepository>();
+            services.AddTransient<IProjectionProcessor, ProjectionProcessor>();
         }
 
-        public static void AddServices(this IServiceCollection services)
-        {
+        public static void AddBoards(this IServiceCollection services)
+        { 
+            services.AddTransient<IBoardRepository, BoardRepository>();
             services.AddTransient<IBoardService, BoardService>();
         }
 
-        public static void AddProjections(this IServiceCollection services)
+        public static void AddBoardReadModels(this IServiceCollection services)
         {
-            services.AddTransient<IProjectionProcessor, ProjectionProcessor>();
+            services.AddTransient<IBoardReadModelRepository, BoardReadModelRepository>();
+            services.AddTransient<IBoardReadModelService, BoardReadModelService>();
             services.AddTransient<IProjection, BoardReadModelProjection>();
+        }
+
+        public static void AddSprintReadModels(this IServiceCollection services)
+        {
+            services.AddTransient<ISprintReadModelRepository, SprintReadModelRepository>();
+            services.AddTransient<ISprintReadModelService, SprintReadModelService>();
+            services.AddTransient<IProjection, SprintReadModelProjection>();
         }
     }
 }

@@ -4,8 +4,9 @@ namespace Tactify.Projections
 {
     public class Worker : BackgroundService
     {
-        private const int PullingInterval = 1000;
-        private const int BatchSize = 1000;
+        private const int PullingInterval = 500;
+        private const int BatchSize = 500;
+        private const bool ProcessParallel = true;
 
         private readonly IProjectionProcessor _projectionProcessor;
 
@@ -18,7 +19,7 @@ namespace Tactify.Projections
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                var processed = await _projectionProcessor.Process(BatchSize);
+                var processed = await _projectionProcessor.Process(BatchSize, ProcessParallel).ConfigureAwait(false);
 
                 if (processed < BatchSize)
                 {

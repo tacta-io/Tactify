@@ -4,9 +4,11 @@ namespace Tactify.Core.Boards.DomainEvents
 {
     public sealed class BoardArchived : DomainEvent
     {
-        public BoardArchived(string aggregateId) : base(aggregateId)
-        {
+        public string CreatedBy { get; }
 
+        public BoardArchived(string aggregateId, string createdBy) : base(aggregateId)
+        {
+            CreatedBy = createdBy;
         }
     }
 }

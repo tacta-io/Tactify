@@ -4,9 +4,16 @@ namespace Tactify.Api.Models
 {
     public class CreateBoardRequest
     {
-        public string Identifier { get; set; }
-        public string Description { get; set; }
+        public string Identifier { get; }
 
-        public BoardInformation ToBoardInformation() => new BoardInformation(Identifier, Description);        
+        public string Description { get; }
+
+        public CreateBoardRequest(string identifier, string description)
+        {
+            Identifier = identifier;
+            Description = description;
+        }
+
+        public BoardInformation ToBoardInformation(string createdBy) => new BoardInformation(Identifier, Description, createdBy);        
     }
 }

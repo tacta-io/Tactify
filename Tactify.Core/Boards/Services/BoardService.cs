@@ -15,13 +15,43 @@ namespace Tactify.Core.Boards.Services
         public async Task CreateBoard(BoardInformation boardInformation) 
         {
             var board = Board.CreateBoard(boardInformation);
+
             await _boardRepository.SaveAsync(board).ConfigureAwait(false);
         }
 
-        public async Task CreateNewSprint(BoardId boardId)
+        public async Task CreateNewSprint(BoardId boardId, string createdBy)
         { 
             var board = await _boardRepository.GetAsync(boardId).ConfigureAwait(false);
-            board.CreateNewSprint();
+
+            board.CreateNewSprint(createdBy);
+
+            await _boardRepository.SaveAsync(board).ConfigureAwait(false);
+        }
+
+        public async Task StartNextSprint(BoardId boardId, string createdBy)
+        {
+            var board = await _boardRepository.GetAsync(boardId).ConfigureAwait(false);
+
+            board.StartNextSprint(createdBy);
+
+            await _boardRepository.SaveAsync(board).ConfigureAwait(false);
+        }
+
+        public async Task EndActiveSprint(BoardId boardId, string createdBy)
+        {
+            var board = await _boardRepository.GetAsync(boardId).ConfigureAwait(false);
+
+            board.EndActiveSprint(createdBy);
+
+            await _boardRepository.SaveAsync(board).ConfigureAwait(false);
+        }
+
+        public async Task ArchiveBoard(BoardId boardId, string createdBy)
+        {
+            var board = await _boardRepository.GetAsync(boardId).ConfigureAwait(false);
+
+            board.ArchiveBoard(createdBy);
+
             await _boardRepository.SaveAsync(board).ConfigureAwait(false);
         }
     }
