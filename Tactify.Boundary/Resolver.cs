@@ -3,6 +3,8 @@ using Tacta.EventStore.Projector;
 using Tacta.EventStore.Repository;
 using Tactify.Core.Boards.Repositories;
 using Tactify.Core.Boards.Services;
+using Tactify.Core.ReadModels.ActivityReadModels.Projections;
+using Tactify.Core.ReadModels.ActivityReadModels.Repositories;
 using Tactify.Core.ReadModels.BoardReadModels.Projections;
 using Tactify.Core.ReadModels.BoardReadModels.Repositories;
 using Tactify.Core.ReadModels.BoardReadModels.Services;
@@ -44,6 +46,12 @@ namespace Tactify.Boundary
             services.AddTransient<ISprintReadModelRepository, SprintReadModelRepository>();
             services.AddTransient<ISprintReadModelService, SprintReadModelService>();
             services.AddTransient<IProjection, SprintReadModelProjection>();
+        }
+
+        public static void AddActivityReadModels(this IServiceCollection services)
+        {
+            services.AddTransient<IActivityReadModelRepository, ActivityReadModelRepository>();
+            services.AddTransient<IProjection, ActivityReadModelProjection>();
         }
     }
 }

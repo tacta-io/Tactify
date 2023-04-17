@@ -42,6 +42,7 @@ builder.Services.AddEventStore();
 builder.Services.AddBoards();
 builder.Services.AddBoardReadModels();
 builder.Services.AddSprintReadModels();
+builder.Services.AddActivityReadModels();
 
 var app = builder.Build();
 

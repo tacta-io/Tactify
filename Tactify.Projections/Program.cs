@@ -8,6 +8,7 @@ IHost host = Host.CreateDefaultBuilder(args).ConfigureServices(services =>
     services.AddEventStore();
     services.AddBoardReadModels();
     services.AddSprintReadModels();
+    services.AddActivityReadModels();
 
 }).Build();
 

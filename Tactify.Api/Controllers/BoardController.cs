@@ -38,7 +38,7 @@ namespace Tactify.Api.Controllers
         [Route("{boardId}/create-sprint")]
         public async Task<ActionResult> CreateNewSprint([FromRoute] string boardId)
         {
-            await _boardService.CreateNewSprint(new BoardId(boardId), Username).ConfigureAwait(false);
+            await _boardService.CreateNewSprint(BoardId.Identity(boardId), Username).ConfigureAwait(false);
 
             return Ok();
         }
@@ -47,7 +47,7 @@ namespace Tactify.Api.Controllers
         [Route("{boardId}/start-next-sprint")]
         public async Task<ActionResult> StartNextSprint([FromRoute] string boardId)
         {
-            await _boardService.StartNextSprint(new BoardId(boardId), Username).ConfigureAwait(false);
+            await _boardService.StartNextSprint(BoardId.Identity(boardId), Username).ConfigureAwait(false);
 
             return Ok();
         }
@@ -56,7 +56,7 @@ namespace Tactify.Api.Controllers
         [Route("{boardId}/end-active-sprint")]
         public async Task<ActionResult> EndActiveSprint([FromRoute] string boardId)
         {
-            await _boardService.EndActiveSprint(new BoardId(boardId), Username).ConfigureAwait(false);
+            await _boardService.EndActiveSprint(BoardId.Identity(boardId), Username).ConfigureAwait(false);
 
             return Ok();
         }
@@ -65,7 +65,7 @@ namespace Tactify.Api.Controllers
         [Route("{boardId}/archive-board")]
         public async Task<ActionResult> ArchiveBoard([FromRoute] string boardId)
         {
-            await _boardService.ArchiveBoard(new BoardId(boardId), Username).ConfigureAwait(false);
+            await _boardService.ArchiveBoard(BoardId.Identity(boardId), Username).ConfigureAwait(false);
 
             return Ok();
         }
