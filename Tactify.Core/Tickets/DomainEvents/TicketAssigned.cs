@@ -6,9 +6,12 @@ namespace Tactify.Core.Tickets.DomainEvents
     {
         public string Assignee { get; }
 
-        public TicketAssigned(string aggregateId, string assignee) : base(aggregateId)
+        public string CreatedBy { get; }
+
+        public TicketAssigned(string ticketId, string assignee, string createdBy) : base(ticketId)
         {
             Assignee = assignee;
+            CreatedBy = createdBy;
         }
     }
 }

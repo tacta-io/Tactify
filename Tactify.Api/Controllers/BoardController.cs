@@ -29,7 +29,7 @@ namespace Tactify.Api.Controllers
         [Route("create-board")]
         public async Task<ActionResult> CreateBoard([FromBody] CreateBoardRequest createBoardRequest)
         {
-            await _boardService.CreateBoard(createBoardRequest.ToBoardInformation(Username)).ConfigureAwait(false);
+            await _boardService.CreateBoard(createBoardRequest.ToBoardInfo(Username)).ConfigureAwait(false);
 
             return Ok();
         }

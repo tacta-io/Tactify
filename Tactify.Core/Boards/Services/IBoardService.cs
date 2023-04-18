@@ -4,7 +4,7 @@ namespace Tactify.Core.Boards.Services
 {
     public interface IBoardService
     {
-        Task CreateBoard(BoardInformation boardInformation);
+        Task CreateBoard(BoardInfo boardInfo);
 
         Task CreateNewSprint(BoardId boardId, string createdBy);
 

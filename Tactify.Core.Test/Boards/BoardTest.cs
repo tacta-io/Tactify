@@ -11,14 +11,14 @@ namespace Tactify.Core.Test.Boards
         private readonly string _username = "TactifyUser";
 
         [TestMethod]        
-        public void GivenValidBoardIdentifierAndDescription_WhenCreateBoard_ThenNewBoardCreated()
+        public void GivenValidBoardNameAndDescription_WhenCreateBoard_ThenNewBoardCreated()
         {
             // Given            
-            var boardIdentifier = "TACTIFY";
+            var boardName = "TACTIFY";
             var description = "Board for managing Tactify project";
 
             // When
-            var board = Board.CreateBoard(new BoardInformation(boardIdentifier, description, _username));
+            var board = Board.CreateBoard(new BoardInfo(boardName, description, _username));
 
             // Then
             var @event = board.DomainEvents.Single() as BoardCreated;
@@ -32,25 +32,25 @@ namespace Tactify.Core.Test.Boards
         public void GivenInvalidDescription_WhenCreateBoard_ThenNewBoardNotCreated()
         {
             // Given            
-            var boardIdentifier = "TACTIFY";
+            var boardName = "TACTIFY";
             var description = string.Empty;
 
             // When
-            Board createBoard() => Board.CreateBoard(new BoardInformation(boardIdentifier, description, _username));
+            Board createBoard() => Board.CreateBoard(new BoardInfo(boardName, description, _username));
 
             // Then
             Assert.ThrowsException<Exception>(createBoard);
         }
 
         [TestMethod]
-        public void GivenInvalidBoardIdentifier_WhenCreateBoard_ThenNewBoardNotCreated()
+        public void GivenInvalidboardName_WhenCreateBoard_ThenNewBoardNotCreated()
         {
             // Given            
-            var boardIdentifier = "";
+            var boardName = "";
             var description = "Board for managing Tactify project";
 
             // When
-            Board createBoard() => Board.CreateBoard(new BoardInformation(boardIdentifier, description, _username));
+            Board createBoard() => Board.CreateBoard(new BoardInfo(boardName, description, _username));
 
             // Then
             Assert.ThrowsException<Exception>(createBoard);
@@ -60,7 +60,7 @@ namespace Tactify.Core.Test.Boards
         public void GivenBoardWithoutSprints_WhenCreateNewSprint_ThenFirstSprintNumberIs1()
         {
             // Given            
-            var board = Board.CreateBoard(new BoardInformation("TACTIFY", "Board for managing Tactify project", _username));
+            var board = Board.CreateBoard(new BoardInfo("TACTIFY", "Board for managing Tactify project", _username));
 
             // When
             board.CreateNewSprint(_username);
@@ -77,7 +77,7 @@ namespace Tactify.Core.Test.Boards
         public void GivenBoardWithExistingSprints_WhenCreateNewSprint_ThenSprintNumbersAreIncremental()
         {
             // Given            
-            var board = Board.CreateBoard(new BoardInformation("TACTIFY", "Board for managing Tactify project", _username));
+            var board = Board.CreateBoard(new BoardInfo("TACTIFY", "Board for managing Tactify project", _username));
 
             // When
             board.CreateNewSprint(_username);
@@ -98,7 +98,7 @@ namespace Tactify.Core.Test.Boards
         public void GivenArchivedBoard_WhenCreateNewSprint_ThenNewSprintNotCreated()
         {
             // Given            
-            var board = Board.CreateBoard(new BoardInformation("TACTIFY", "Board for managing Tactify project", _username));
+            var board = Board.CreateBoard(new BoardInfo("TACTIFY", "Board for managing Tactify project", _username));
 
             board.ArchiveBoard(_username);
 
@@ -114,7 +114,7 @@ namespace Tactify.Core.Test.Boards
         public void GivenBoardWith2CreatedSprints_WhenStartNextSprint_ThenFirstOneIsStarted()
         {
             // Given            
-            var board = Board.CreateBoard(new BoardInformation("TACTIFY", "Board for managing Tactify project", _username));
+            var board = Board.CreateBoard(new BoardInfo("TACTIFY", "Board for managing Tactify project", _username));
 
             board.CreateNewSprint(_username);
             board.CreateNewSprint(_username);
@@ -134,9 +134,11 @@ namespace Tactify.Core.Test.Boards
         public void GivenArchivedBoard_WhenStartNextSprint_ThenNextSprintIsNotActivated()
         {
             // Given            
-            var board = Board.CreateBoard(new BoardInformation("TACTIFY", "Board for managing Tactify project", _username));
+            var board = Board.CreateBoard(new BoardInfo("TACTIFY", "Board for managing Tactify project", _username));
 
             board.CreateNewSprint(_username);
+            board.StartNextSprint(_username);
+            board.EndActiveSprint(_username);
             board.ArchiveBoard(_username);
 
             // When
@@ -144,14 +146,13 @@ namespace Tactify.Core.Test.Boards
 
             // Then
             Assert.ThrowsException<Exception>(startNextSprint);
-            Assert.IsFalse(board.DomainEvents.Any(x => x is SprintStarted));
         }
 
         [TestMethod]
         public void GivenBoardWithActiveSprint_WhenStartNextSprint_ThenSecondOneIsNotStarted()
         {
             // Given            
-            var board = Board.CreateBoard(new BoardInformation("TACTIFY", "Board for managing Tactify project", _username));
+            var board = Board.CreateBoard(new BoardInfo("TACTIFY", "Board for managing Tactify project", _username));
 
             board.CreateNewSprint(_username);
             board.CreateNewSprint(_username);
@@ -169,7 +170,7 @@ namespace Tactify.Core.Test.Boards
         public void GivenBoardWithoutSprints_WhenStartNextSprint_ThenNoSprintToActivate()
         {
             // Given            
-            var board = Board.CreateBoard(new BoardInformation("TACTIFY", "Board for managing Tactify project", _username));
+            var board = Board.CreateBoard(new BoardInfo("TACTIFY", "Board for managing Tactify project", _username));
 
             // When
             void startNextSprint() => board.StartNextSprint(_username);
@@ -183,7 +184,7 @@ namespace Tactify.Core.Test.Boards
         public void GivenBoardWithAllSprintsEnded_WhenStartNextSprint_ThenNoSprintToActivate()
         {
             // Given            
-            var board = Board.CreateBoard(new BoardInformation("TACTIFY", "Board for managing Tactify project", _username));
+            var board = Board.CreateBoard(new BoardInfo("TACTIFY", "Board for managing Tactify project", _username));
 
             board.CreateNewSprint(_username);
             board.StartNextSprint(_username);
@@ -200,7 +201,7 @@ namespace Tactify.Core.Test.Boards
         public void GivenBoardWithActiveSprint_WhenEndActiveSprint_ThenActiveSprintEnded()
         {
             // Given            
-            var board = Board.CreateBoard(new BoardInformation("TACTIFY", "Board for managing Tactify project", _username));
+            var board = Board.CreateBoard(new BoardInfo("TACTIFY", "Board for managing Tactify project", _username));
 
             board.CreateNewSprint(_username);
             board.StartNextSprint(_username);
@@ -220,9 +221,11 @@ namespace Tactify.Core.Test.Boards
         public void GivenArchivedBoard_WhenEndActiveSprint_ThenNoSprintsEnded()
         {
             // Given            
-            var board = Board.CreateBoard(new BoardInformation("TACTIFY", "Board for managing Tactify project", _username));
+            var board = Board.CreateBoard(new BoardInfo("TACTIFY", "Board for managing Tactify project", _username));
 
             board.CreateNewSprint(_username);
+            board.StartNextSprint(_username);
+            board.EndActiveSprint(_username);
             board.ArchiveBoard(_username);
 
             // When
@@ -230,14 +233,13 @@ namespace Tactify.Core.Test.Boards
 
             // Then
             Assert.ThrowsException<Exception>(endActiveSprint);
-            Assert.IsFalse(board.DomainEvents.Any(x => x is SprintEnded));
         }
 
         [TestMethod]
         public void GivenBoardWithoutActiveSprint_WhenEndActiveSprint_ThenNoSprintsEnded()
         {
             // Given            
-            var board = Board.CreateBoard(new BoardInformation("TACTIFY", "Board for managing Tactify project", _username));
+            var board = Board.CreateBoard(new BoardInfo("TACTIFY", "Board for managing Tactify project", _username));
 
             board.CreateNewSprint(_username);
 
@@ -250,13 +252,15 @@ namespace Tactify.Core.Test.Boards
         }
 
         [TestMethod]
-        public void GivenBoardWithoutActiveSprint_WhenArchiveBoard_ThenTheBoardIsArchived()
+        public void GivenBoardWithAllSprintsEnded_WhenArchiveBoard_ThenTheBoardIsArchived()
         {
             // Given            
-            var board = Board.CreateBoard(new BoardInformation("TACTIFY", "Board for managing Tactify project", _username));
+            var board = Board.CreateBoard(new BoardInfo("TACTIFY", "Board for managing Tactify project", _username));
 
             board.CreateNewSprint(_username);
             board.CreateNewSprint(_username);
+            board.StartNextSprint(_username);
+            board.EndActiveSprint(_username);
             board.StartNextSprint(_username);
             board.EndActiveSprint(_username);
 
@@ -274,7 +278,7 @@ namespace Tactify.Core.Test.Boards
         public void GivenArchivedBoard_WhenArchiveBoard_ThenTheBoardCanNotBeArchivedAgain()
         {
             // Given            
-            var board = Board.CreateBoard(new BoardInformation("TACTIFY", "Board for managing Tactify project", _username));
+            var board = Board.CreateBoard(new BoardInfo("TACTIFY", "Board for managing Tactify project", _username));
 
             board.ArchiveBoard(_username);
 
@@ -289,7 +293,7 @@ namespace Tactify.Core.Test.Boards
         public void GivenBoardWithActiveSprint_WhenArchiveBoard_ThenTheBoardCanNotBeArchived()
         {
             // Given            
-            var board = Board.CreateBoard(new BoardInformation("TACTIFY", "Board for managing Tactify project", _username));
+            var board = Board.CreateBoard(new BoardInfo("TACTIFY", "Board for managing Tactify project", _username));
 
             board.CreateNewSprint(_username);
             board.CreateNewSprint(_username);

@@ -9,9 +9,9 @@ namespace Tactify.Core.Boards
     {
         public override BoardId Id { get; protected set; }
 
-        private bool IsArchived { get; set; }
+        private bool IsArchived { get; set; } = false;
 
-        private List<Sprint> Sprints { get; set; }
+        private List<Sprint> Sprints { get; set; } = new List<Sprint>();
 
         private Sprint? ActiveSprint => Sprints.SingleOrDefault(x => x.Status == SprintStatus.Active);
 
@@ -20,27 +20,24 @@ namespace Tactify.Core.Boards
         private int NewSprintNumber => Sprints.Any() ? Sprints.Max(x => x.Id.SprintNumber) + 1 : 1;
 
 
-
         private Board() 
         {
-        
+
         }
 
         public Board(IEnumerable<IDomainEvent> events) : base(events) 
         { 
-        
+
         }
 
 
-
-
-        public static Board CreateBoard(BoardInformation boardInformation)
+        public static Board CreateBoard(BoardInfo boardInfo)
         { 
             var board = new Board();
 
-            var boardId = new BoardId(boardInformation.Identifier);
+            var boardId = new BoardId(boardInfo.Name);
 
-            var @event = new BoardCreated(boardId.ToString(), boardInformation.Description, boardInformation.CreatedBy);
+            var @event = new BoardCreated(boardId.ToString(), boardInfo.Description, boardInfo.CreatedBy);
 
             board.Apply(@event);
 
@@ -86,7 +83,7 @@ namespace Tactify.Core.Boards
         {
             if (IsArchived) throw new Exception($"Board {Id} is already archived.");
 
-            if (ActiveSprint != null) throw new Exception($"There is active sprint {ActiveSprint.Id} on the board {Id}.");
+            if (Sprints.Any(x => x.Status != SprintStatus.Ended)) throw new Exception($"Not all sprints ended on the board {Id}.");
 
             var @event = new BoardArchived(Id.ToString(), createdBy);
 
@@ -94,15 +91,9 @@ namespace Tactify.Core.Boards
         }
 
 
-
-
         public void On(BoardCreated @event)
         {
             Id = BoardId.Identity(@event.AggregateId);
-
-            Sprints = new List<Sprint>();
-
-            IsArchived = false;
         }
 
         public void On(SprintCreated @event)

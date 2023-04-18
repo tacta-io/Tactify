@@ -8,7 +8,7 @@ namespace Tactify.Core.Boards.DomainEvents
 
         public string CreatedBy { get; }
 
-        public SprintEnded(string aggregateId, string sprintId, string createdBy) : base(aggregateId)
+        public SprintEnded(string boardId, string sprintId, string createdBy) : base(boardId)
         {
             SprintId = sprintId;
             CreatedBy = createdBy;

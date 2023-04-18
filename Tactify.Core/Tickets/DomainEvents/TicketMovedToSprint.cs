@@ -6,9 +6,12 @@ namespace Tactify.Core.Tickets.DomainEvents
     {
         public string SprintId { get; }
 
-        public TicketMovedToSprint(string aggregateId, string sprintId) : base(aggregateId)
+        public string CreatedBy { get; }
+
+        public TicketMovedToSprint(string ticketId, string sprintId, string createdBy) : base(ticketId)
         {
             SprintId = sprintId;
+            CreatedBy = createdBy;
         }
     }
 }

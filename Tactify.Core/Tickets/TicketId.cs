@@ -4,12 +4,13 @@ namespace Tactify.Core.Tickets
 {
     public sealed class TicketId : EntityId
     {
-        public string BoardIdentifier { get; private set; }
+        public string BoardName { get; private set; }
+
         public int TicketNumber { get; private set; }
 
-        public TicketId(string boardIdentifier, int ticketNumber)
+        public TicketId(string boardName, int ticketNumber)
         {
-            BoardIdentifier = boardIdentifier;
+            BoardName = boardName;
 
             TicketNumber = ticketNumber;
         }
@@ -23,7 +24,7 @@ namespace Tactify.Core.Tickets
 
         public override string ToString()
         {
-            return $"Ticket-{BoardIdentifier}-{TicketNumber}";
+            return $"Ticket-{BoardName}-{TicketNumber}";
         }
     }
 }

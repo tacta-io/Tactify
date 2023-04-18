@@ -1,17 +1,18 @@
 ﻿using Tacta.EventStore.Domain;
-using Tactify.Core.Tickets.ValueObjects;
 
 namespace Tactify.Core.Tickets.DomainEvents
 {
     public sealed class TicketEstimated : DomainEvent
     {
-        public int NumberOfUnits { get; }
-        public MeasurementUnit MeasurementUnit { get; }
+        public int NumberOfDays { get; }
 
-        public TicketEstimated(string aggregateId, int numberOfUnits, MeasurementUnit measurementUnit) : base(aggregateId)
+        public string CreatedBy { get; }
+
+
+        public TicketEstimated(string ticketId, int numberOfDays, string createdBy) : base(ticketId)
         {
-            NumberOfUnits = numberOfUnits;
-            MeasurementUnit = measurementUnit;
+            NumberOfDays = numberOfDays;
+            CreatedBy = createdBy;
         }
     }
 }

@@ -4,23 +4,23 @@ namespace Tactify.Core.Boards
 {
     public sealed class BoardId : EntityId
     {
-        public string BoardIdentifier { get; }
+        public string BoardName { get; }
 
-        public BoardId(string boardIdentitifer)
+        public BoardId(string boardName)
         {
-            BoardIdentifier = boardIdentitifer;
+            BoardName = boardName;
         }
 
-        public static BoardId Identity(string ticketId)
+        public static BoardId Identity(string boardId)
         {
-            var values = ticketId.Split("-");
+            var values = boardId.Split("-");
 
             return new BoardId(values[1]);
         }
 
         public override string ToString()
         {
-            return $"Board-{BoardIdentifier}";
+            return $"Board-{BoardName}";
         }
     }
 }
