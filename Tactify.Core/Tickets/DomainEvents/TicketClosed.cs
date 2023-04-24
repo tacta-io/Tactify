@@ -1,4 +1,5 @@
-﻿using Tacta.EventStore.Domain;
+﻿using Newtonsoft.Json;
+using Tacta.EventStore.Domain;
 
 namespace Tactify.Core.Tickets.DomainEvents
 {
@@ -8,7 +9,13 @@ namespace Tactify.Core.Tickets.DomainEvents
 
         public TicketClosed(string ticketId, string createdBy) : base(ticketId)
         {
-            CreatedBy= createdBy;
+            CreatedBy = createdBy;
+        }
+
+        [JsonConstructor]
+        public TicketClosed(Guid id, string aggregateId, DateTime createdAt, string createdBy) : base(id, aggregateId, createdAt)
+        {
+            CreatedBy = createdBy;
         }
     }
 }

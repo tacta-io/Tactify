@@ -4,8 +4,8 @@ namespace Tactify.Core.ReadModels.ActivityReadModels.Repositories
 {
     public interface IActivityReadModelRepository : IProjectionRepository
     {
-        Task SaveActivityReadModelAsync(ActivityReadModel activityReadModel);
+        Task InsertAsync(ActivityReadModel activityReadModel);
 
-        Task<IEnumerable<ActivityReadModel>> GetActivityReadModelsAsync();
+        Task<IEnumerable<ActivityReadModel>> GetAsync();
     }
 }

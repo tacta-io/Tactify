@@ -21,24 +21,39 @@ namespace Tactify.Core.ReadModels.SprintReadModels.Projections
                 Sequence = @event.Sequence,
                 BoardId = @event.AggregateId,
                 SprintId = @event.SprintId,
+                CreatedAt = @event.CreatedAt,
                 Status = SprintStatus.Created.ToString()
             };
 
-            await _sprintReadModelRepository.SaveSprintReadModelAsync(sprint).ConfigureAwait(false);
+            await _sprintReadModelRepository.OnSprintCreatedAsync(sprint).ConfigureAwait(false);
         }
 
         public async Task On(SprintStarted @event)
         {
-            await _sprintReadModelRepository
-                .UpdateSprintReadModelStatusAsync(@event.AggregateId, @event.SprintId, SprintStatus.Active.ToString())
-                .ConfigureAwait(false);
+            var sprint = new SprintReadModel
+            {
+                Sequence = @event.Sequence,
+                BoardId = @event.AggregateId,
+                SprintId = @event.SprintId,
+                StartedAt = @event.CreatedAt,
+                Status = SprintStatus.Created.ToString()
+            };
+
+            await _sprintReadModelRepository.OnSprintStartedAsync(sprint).ConfigureAwait(false);
         }
 
         public async Task On(SprintEnded @event)
         {
-            await _sprintReadModelRepository
-               .UpdateSprintReadModelStatusAsync(@event.AggregateId, @event.SprintId, SprintStatus.Ended.ToString())
-               .ConfigureAwait(false);
+            var sprint = new SprintReadModel
+            {
+                Sequence = @event.Sequence,
+                BoardId = @event.AggregateId,
+                SprintId = @event.SprintId,
+                EndedAt = @event.CreatedAt,
+                Status = SprintStatus.Ended.ToString()
+            };
+
+            await _sprintReadModelRepository.OnSprintEndedAsync(sprint).ConfigureAwait(false);
         }
     }
 }

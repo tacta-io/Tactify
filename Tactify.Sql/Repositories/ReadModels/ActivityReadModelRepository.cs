@@ -3,7 +3,7 @@ using Tacta.EventStore.Repository;
 using Tactify.Core.ReadModels.ActivityReadModels;
 using Tactify.Core.ReadModels.ActivityReadModels.Repositories;
 
-namespace Tactify.Sql.Repositories
+namespace Tactify.Sql.Repositories.ReadModels
 {
     public sealed class ActivityReadModelRepository : ProjectionRepository, IActivityReadModelRepository
     {
@@ -16,7 +16,7 @@ namespace Tactify.Sql.Repositories
             _sqlConnectionFactory = sqlConnectionFactory;
         }
 
-        public async Task SaveActivityReadModelAsync(ActivityReadModel activityReadModel)
+        public async Task InsertAsync(ActivityReadModel activityReadModel)
         {
             var insert = $"INSERT INTO {_tableName} VALUES (@CreatedAt, @CreatedBy, @Name, @Description, @Sequence)";
 
@@ -25,7 +25,7 @@ namespace Tactify.Sql.Repositories
             await connection.ExecuteAsync(insert, activityReadModel).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<ActivityReadModel>> GetActivityReadModelsAsync()
+        public async Task<IEnumerable<ActivityReadModel>> GetAsync()
         {
             var select = $"SELECT [CreatedAt], [CreatedBy], [Name], [Description], [Sequence] FROM {_tableName}";
 

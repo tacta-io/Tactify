@@ -39,10 +39,8 @@ builder.Services.AddAuthentication("BasicAuthentication")
    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
 builder.Services.AddEventStore();
-builder.Services.AddBoards();
-builder.Services.AddBoardReadModels();
-builder.Services.AddSprintReadModels();
-builder.Services.AddActivityReadModels();
+builder.Services.AddDomainServices();
+builder.Services.AddReadModelRepositories();
 
 var app = builder.Build();
 

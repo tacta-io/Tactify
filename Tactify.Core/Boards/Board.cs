@@ -9,7 +9,7 @@ namespace Tactify.Core.Boards
     {
         public override BoardId Id { get; protected set; }
 
-        private bool IsArchived { get; set; } = false;
+        public bool IsArchived { get; private set; } = false;
 
         private List<Sprint> Sprints { get; set; } = new List<Sprint>();
 
@@ -18,6 +18,8 @@ namespace Tactify.Core.Boards
         private Sprint? NextSprintToStart => Sprints.OrderBy(x => x.Id.SprintNumber).FirstOrDefault(x => x.Status == SprintStatus.Created);
 
         private int NewSprintNumber => Sprints.Any() ? Sprints.Max(x => x.Id.SprintNumber) + 1 : 1;
+
+        public Sprint SprintById(string sprintId) => Sprints.Single(x => x.Id.ToString() == sprintId);
 
 
         private Board() 
@@ -107,14 +109,14 @@ namespace Tactify.Core.Boards
 
         public void On(SprintStarted @event)
         {
-            var sprint = Sprints.Single(x => x.Id.ToString() == @event.SprintId);
+            var sprint = SprintById(@event.SprintId);
 
             sprint.StartSprint();
         }
 
         public void On(SprintEnded @event)
         {
-            var sprint = Sprints.Single(x => x.Id.ToString() == @event.SprintId);
+            var sprint = SprintById(@event.SprintId);
 
             sprint.EndSprint();
         }

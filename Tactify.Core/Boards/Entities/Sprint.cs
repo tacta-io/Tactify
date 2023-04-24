@@ -8,6 +8,8 @@ namespace Tactify.Core.Boards.Entities
 
         public SprintStatus Status { get; private set; }
 
+        public bool IsEnded => Status == SprintStatus.Ended;
+
         public Sprint(SprintId sprintId)
         {
             Id = sprintId;

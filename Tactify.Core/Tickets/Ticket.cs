@@ -31,7 +31,7 @@ namespace Tactify.Core.Tickets
 
             var ticketId = new TicketId(ticketInfo.BoardId.BoardName, ticketInfo.TicketNumber);
 
-            var @event = new TicketOpened(ticketId.ToString(), ticketInfo.Description, ticketInfo.CreatedBy);
+            var @event = new TicketOpened(ticketId.ToString(), ticketInfo.BoardId.ToString(), ticketInfo.Description, ticketInfo.CreatedBy);
 
             ticket.Apply(@event);
 
@@ -42,6 +42,8 @@ namespace Tactify.Core.Tickets
         {
             if (IsClosed) throw new Exception($"Closed ticket {Id} can not be changed.");
 
+            if (numberOfDays < 0) throw new Exception($"Estimation {numberOfDays} in not valid.");
+
             var @event = new TicketEstimated(Id.ToString(), numberOfDays, createdBy);
 
             Apply(@event);
@@ -51,7 +53,7 @@ namespace Tactify.Core.Tickets
         {
             if (IsClosed) throw new Exception($"Closed ticket {Id} can not be changed.");
 
-            if (IsEstimated) throw new Exception($"Ticket {Id} is not estimated.");
+            if (!IsEstimated) throw new Exception($"Ticket {Id} is not estimated.");
 
             if (sprintId == null) throw new Exception($"Invalid sprint {sprintId} to move the ticket to.");
 

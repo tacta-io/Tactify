@@ -13,7 +13,7 @@ namespace Tactify.Core.ReadModels.SprintReadModels.Services
 
         public async Task<IEnumerable<SprintReadModel>> GetSprintReadModels(string boardId)
         {
-            return await _sprintReadModelRepository.GetSprintReadModelsAsync(boardId).ConfigureAwait(false);
+            return await _sprintReadModelRepository.GetAsync(boardId).ConfigureAwait(false);
         }
     }
 }

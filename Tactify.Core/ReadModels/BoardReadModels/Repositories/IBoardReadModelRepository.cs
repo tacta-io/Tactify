@@ -4,10 +4,10 @@ namespace Tactify.Core.ReadModels.BoardReadModels.Repositories
 {
     public interface IBoardReadModelRepository : IProjectionRepository
     {
-        Task SaveBoardReadModelAsync(BoardReadModel boardReadModel);
+        Task<IEnumerable<BoardReadModel>> GetAsync();
 
-        Task ArchiveBoardReadModelAsync(string boardId);
+        Task OnBoardCreatedAsync(BoardReadModel boardReadModel);
 
-        Task<IEnumerable<BoardReadModel>> GetBoardReadModelsAsync();
+        Task OnBoardArchivedAsync(BoardReadModel boardReadModel);        
     }
 }

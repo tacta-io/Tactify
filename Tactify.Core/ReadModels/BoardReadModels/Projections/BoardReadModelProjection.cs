@@ -19,15 +19,23 @@ namespace Tactify.Core.ReadModels.BoardReadModels.Projections
             { 
                 Sequence = @event.Sequence,
                 BoardId = @event.AggregateId,
-                Description = @event.Description            
+                Description = @event.Description,
+                IsArchived = false
             };
 
-            await _boardReadModelRepository.SaveBoardReadModelAsync(board).ConfigureAwait(false);
+            await _boardReadModelRepository.OnBoardCreatedAsync(board).ConfigureAwait(false);
         }
 
         public async Task On(BoardArchived @event)
         {
-            await _boardReadModelRepository.ArchiveBoardReadModelAsync(@event.AggregateId).ConfigureAwait(false);
+            var board = new BoardReadModel
+            {
+                Sequence = @event.Sequence,
+                BoardId = @event.AggregateId,
+                IsArchived = true
+            };
+
+            await _boardReadModelRepository.OnBoardArchivedAsync(board).ConfigureAwait(false);
         }
     }
 }

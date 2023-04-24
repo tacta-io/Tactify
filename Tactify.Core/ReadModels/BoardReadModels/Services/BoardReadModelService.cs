@@ -13,7 +13,7 @@ namespace Tactify.Core.ReadModels.BoardReadModels.Services
 
         public async Task<IEnumerable<BoardReadModel>> GetBoardReadModels()
         {
-            return await _boardReadModelRepository.GetBoardReadModelsAsync().ConfigureAwait(false);
+            return await _boardReadModelRepository.GetAsync().ConfigureAwait(false);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Tactify.Core.ReadModels.ActivityReadModels.Projections
                 Description = @event.AggregateId
             };
 
-            await _activityReadModelRepository.SaveActivityReadModelAsync(activity).ConfigureAwait(false);
+            await _activityReadModelRepository.InsertAsync(activity).ConfigureAwait(false);
         }
 
         public async Task On(SprintCreated @event)
@@ -39,7 +39,7 @@ namespace Tactify.Core.ReadModels.ActivityReadModels.Projections
                 Description = $"{@event.AggregateId} {@event.SprintId}"
             };
 
-            await _activityReadModelRepository.SaveActivityReadModelAsync(activity).ConfigureAwait(false);
+            await _activityReadModelRepository.InsertAsync(activity).ConfigureAwait(false);
         }
 
         public async Task On(SprintStarted @event)
@@ -53,7 +53,7 @@ namespace Tactify.Core.ReadModels.ActivityReadModels.Projections
                 Description = $"{@event.AggregateId} {@event.SprintId}"
             };
 
-            await _activityReadModelRepository.SaveActivityReadModelAsync(activity).ConfigureAwait(false);
+            await _activityReadModelRepository.InsertAsync(activity).ConfigureAwait(false);
         }
 
         public async Task On(SprintEnded @event)
@@ -66,7 +66,7 @@ namespace Tactify.Core.ReadModels.ActivityReadModels.Projections
                 Name = @event.GetType().Name,
                 Description = $"{@event.AggregateId} {@event.SprintId}"
             };
-            await _activityReadModelRepository.SaveActivityReadModelAsync(activity).ConfigureAwait(false);
+            await _activityReadModelRepository.InsertAsync(activity).ConfigureAwait(false);
         }
 
         public async Task On(BoardArchived @event)
@@ -80,7 +80,7 @@ namespace Tactify.Core.ReadModels.ActivityReadModels.Projections
                 Description = @event.AggregateId
             };
 
-            await _activityReadModelRepository.SaveActivityReadModelAsync(activity).ConfigureAwait(false);
+            await _activityReadModelRepository.InsertAsync(activity).ConfigureAwait(false);
         }
     }
 }

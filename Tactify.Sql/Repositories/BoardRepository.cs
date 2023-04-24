@@ -22,7 +22,9 @@ namespace Tactify.Sql.Repositories
 
             var domainEvents = eventStoreRecords.Select(x => x.Event).ToList().AsReadOnly();
 
-            return domainEvents.Any() ? new Board(domainEvents) : null;
+            if (!domainEvents.Any()) throw new Exception($"Board {boardId} not found.");
+
+            return new Board(domainEvents);
         }
 
         public async Task SaveAsync(Board board)

@@ -6,9 +6,8 @@ IHost host = Host.CreateDefaultBuilder(args).ConfigureServices(services =>
     services.AddHostedService<Worker>();
 
     services.AddEventStore();
-    services.AddBoardReadModels();
-    services.AddSprintReadModels();
-    services.AddActivityReadModels();
+    services.AddReadModelRepositories();
+    services.AddReadModelProjections();
 
 }).Build();
 

@@ -7,6 +7,6 @@ namespace Tactify.Api.Controllers
     [ApiController]
     public class BaseController : ControllerBase
     {
-        protected string Username => ControllerContext.HttpContext.User.Claims.First().Value;
+        protected string Username => User.Claims.First().Value;
     }
 }

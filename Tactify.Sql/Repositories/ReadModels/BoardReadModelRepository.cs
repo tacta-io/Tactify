@@ -3,7 +3,7 @@ using Tacta.EventStore.Repository;
 using Tactify.Core.ReadModels.BoardReadModels;
 using Tactify.Core.ReadModels.BoardReadModels.Repositories;
 
-namespace Tactify.Sql.Repositories
+namespace Tactify.Sql.Repositories.ReadModels
 {
     public sealed class BoardReadModelRepository : ProjectionRepository, IBoardReadModelRepository
     {
@@ -16,18 +16,7 @@ namespace Tactify.Sql.Repositories
             _sqlConnectionFactory = sqlConnectionFactory;
         }
 
-        public async Task ArchiveBoardReadModelAsync(string boardId)
-        {
-            var update = $"UPDATE {_tableName} SET [IsArchived] = 1 WHERE [BoardId] = @BoardId";
-
-            await using var connection = _sqlConnectionFactory.SqlConnection();
-
-            var args = new { BoardId = boardId };
-
-            await connection.ExecuteAsync(update, args).ConfigureAwait(false);
-        }
-
-        public async Task<IEnumerable<BoardReadModel>> GetBoardReadModelsAsync()
+        public async Task<IEnumerable<BoardReadModel>> GetAsync()
         {
             var select = $"SELECT [BoardId], [Description], [IsArchived], [Sequence] FROM {_tableName}";
 
@@ -36,7 +25,7 @@ namespace Tactify.Sql.Repositories
             return await connection.QueryAsync<BoardReadModel>(select).ConfigureAwait(false);
         }
 
-        public async Task SaveBoardReadModelAsync(BoardReadModel boardReadModel)
+        public async Task OnBoardCreatedAsync(BoardReadModel boardReadModel)
         {
             var insert = $"INSERT INTO {_tableName} VALUES (@BoardId, @Description, @IsArchived, @Sequence)";
 
@@ -44,5 +33,14 @@ namespace Tactify.Sql.Repositories
 
             await connection.ExecuteAsync(insert, boardReadModel).ConfigureAwait(false);
         }
+
+        public async Task OnBoardArchivedAsync(BoardReadModel boardReadModel)
+        {
+            var update = $"UPDATE {_tableName} SET [IsArchived] = @IsArchived WHERE [BoardId] = @BoardId";
+
+            await using var connection = _sqlConnectionFactory.SqlConnection();
+
+            await connection.ExecuteAsync(update, boardReadModel).ConfigureAwait(false);
+        }      
     }
 }

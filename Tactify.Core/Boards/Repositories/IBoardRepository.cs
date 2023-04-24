@@ -3,6 +3,7 @@
     public interface IBoardRepository
     {
         Task<Board> GetAsync(BoardId boardId);
+
         Task SaveAsync(Board board);
     }
 }

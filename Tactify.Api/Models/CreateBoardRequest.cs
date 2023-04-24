@@ -14,6 +14,6 @@ namespace Tactify.Api.Models
             Description = description;
         }
 
-        public BoardInfo ToBoardInfo(string createdBy) => new BoardInfo(Name, Description, createdBy);        
+        public BoardInfo ToBoardInfo(string createdBy) => new(Name, Description, createdBy);        
     }
 }

@@ -4,11 +4,12 @@ namespace Tactify.Core.ReadModels.SprintReadModels.Repositories
 {
     public interface ISprintReadModelRepository : IProjectionRepository
     {
+        Task<IEnumerable<SprintReadModel>> GetAsync(string boardId);
 
-        Task SaveSprintReadModelAsync(SprintReadModel sprintReadModel);
+        Task OnSprintCreatedAsync(SprintReadModel sprintReadModel);
 
-        Task UpdateSprintReadModelStatusAsync(string boardId, string sprintId, string status);
+        Task OnSprintStartedAsync(SprintReadModel sprintReadModel);
 
-        Task<IEnumerable<SprintReadModel>> GetSprintReadModelsAsync(string boardId);
+        Task OnSprintEndedAsync(SprintReadModel sprintReadModel);        
     }
 }

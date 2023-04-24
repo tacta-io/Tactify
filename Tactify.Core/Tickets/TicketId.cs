@@ -1,4 +1,5 @@
 ﻿using Tacta.EventStore.Domain;
+using Tactify.Core.Boards;
 
 namespace Tactify.Core.Tickets
 {
@@ -7,6 +8,8 @@ namespace Tactify.Core.Tickets
         public string BoardName { get; private set; }
 
         public int TicketNumber { get; private set; }
+
+        public BoardId BoardId => new BoardId(BoardName);
 
         public TicketId(string boardName, int ticketNumber)
         {
