@@ -4,6 +4,7 @@ using Tactify.Api.Auth;
 using Tactify.Boundary;
 
 var builder = WebApplication.CreateBuilder(args);
+var AllowAllCorsPolicy = "AllowAll";
 
 builder.Services.AddControllers();
 
@@ -42,7 +43,21 @@ builder.Services.AddEventStore();
 builder.Services.AddDomainServices();
 builder.Services.AddReadModelRepositories();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: AllowAllCorsPolicy,
+        policy =>
+        {
+            policy.AllowAnyOrigin();
+            policy.AllowAnyMethod();
+            policy.AllowAnyHeader();
+        });
+});
+
 var app = builder.Build();
+
+app.UseCors(AllowAllCorsPolicy);
+
 
 if (app.Environment.IsDevelopment())
 {
