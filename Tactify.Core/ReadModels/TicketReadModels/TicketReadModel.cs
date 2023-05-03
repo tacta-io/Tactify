@@ -1,7 +1,9 @@
 ﻿namespace Tactify.Core.ReadModels.TicketReadModels
 {
-    public sealed class TicketReadModel : ReadModel
+    public sealed class TicketReadModel
     {
+        public int Sequence { get; set; }
+
         public string TicketId { get; set; }
 
         public string? SprintId { get; set; }

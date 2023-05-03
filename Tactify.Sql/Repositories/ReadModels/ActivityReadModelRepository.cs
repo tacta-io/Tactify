@@ -27,7 +27,9 @@ namespace Tactify.Sql.Repositories.ReadModels
 
         public async Task<IEnumerable<ActivityReadModel>> GetAsync()
         {
-            var select = $"SELECT [CreatedAt], [CreatedBy], [Name], [Description], [Sequence] FROM {_tableName}";
+            var select = 
+                @$"SELECT TOP (100) [CreatedAt], [CreatedBy], [Name], [Description], [Sequence] 
+                FROM {_tableName} ORDER BY [Sequence] DESC";
 
             await using var connection = _sqlConnectionFactory.SqlConnection();
 

@@ -2,5 +2,6 @@
 {
     public interface IActivityReadModelService
     {
+        Task<IEnumerable<ActivityReadModel>> GetActivityReadModels();
     }
 }

@@ -1,7 +1,9 @@
 ﻿namespace Tactify.Core.ReadModels.SprintReadModels
 {
-    public sealed class SprintReadModel : ReadModel
+    public sealed class SprintReadModel
     {
+        public int Sequence { get; set; }
+
         public string BoardId { get; set; }
 
         public string SprintId { get; set; }

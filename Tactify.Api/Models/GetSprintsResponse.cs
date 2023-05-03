@@ -8,10 +8,16 @@ namespace Tactify.Api.Models
 
         public string Status { get; }
 
+        public DateTime? StartedAt { get; }
+
+        public DateTime? EndedAt { get; }
+
         public GetSprintsResponse(SprintReadModel sprintReadModel)
         {
             SprintId = sprintReadModel.SprintId;
             Status = sprintReadModel.Status;
+            StartedAt = sprintReadModel.StartedAt;
+            EndedAt = sprintReadModel.EndedAt;
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿namespace Tactify.Core.ReadModels.ActivityReadModels
 {
-    public sealed class ActivityReadModel : ReadModel
+    public sealed class ActivityReadModel
     {
+        public int Sequence { get; set; }
+
         public DateTime CreatedAt { get; set; }
 
         public string CreatedBy { get; set; }
