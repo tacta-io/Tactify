@@ -1,7 +1,7 @@
 using Tactify.Boundary;
 using Tactify.Projections;
 
-IHost host = Host.CreateDefaultBuilder(args).ConfigureServices(services =>
+Host.CreateDefaultBuilder(args).UseWindowsService().ConfigureServices(services =>
 {
     services.AddHostedService<Worker>();
 
@@ -9,6 +9,4 @@ IHost host = Host.CreateDefaultBuilder(args).ConfigureServices(services =>
     services.AddReadModelRepositories();
     services.AddReadModelProjections();
 
-}).Build();
-
-host.Run();
+}).Build().Run();
