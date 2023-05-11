@@ -6,6 +6,6 @@
 
         Task SaveAsync(Ticket ticket);
 
-        Task<int> GetNextTicketNumber();
+        Task<int> GetNextTicketNumberAsync();
     }
 }

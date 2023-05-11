@@ -14,25 +14,23 @@ namespace Tactify.Core.Tickets.ValueObjects
         public string CreatedBy { get; }
 
 
-        public TicketInfo(BoardId boardId, string description, string createdBy)
+        public TicketInfo(BoardId boardId, string description, string createdBy, int ticketNumber = 0)
         {
             if (boardId == null) throw new Exception("Ticket needs to belong to a board.");          
 
             if (string.IsNullOrWhiteSpace(description)) throw new Exception("Ticket description is mandatory.");
 
             BoardId = boardId;
-            TicketNumber = 0;
+            TicketNumber = ticketNumber;
             Description = description;
             CreatedBy = createdBy;
         }
 
         public TicketInfo WithTicketNumber(int ticketNumber)
         {
-            if (ticketNumber < 0) throw new Exception("Ticket needs to have valid ticket number.");
-
-            TicketNumber = ticketNumber;
-
-            return this;
+            if (ticketNumber <= 0) throw new Exception("Ticket needs to have valid ticket number.");
+           
+            return new TicketInfo(BoardId, Description, CreatedBy, ticketNumber);
         }
 
         protected override IEnumerable<object> GetAtomicValues()

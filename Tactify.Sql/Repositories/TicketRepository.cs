@@ -44,7 +44,7 @@ namespace Tactify.Sql.Repositories
             await _eventStoreRepository.SaveAsync(aggregateRecord, eventRecords).ConfigureAwait(false);
         }
 
-        public async Task<int> GetNextTicketNumber()
+        public async Task<int> GetNextTicketNumberAsync()
         {
             const string insert = "INSERT INTO [dbo].[TicketNumberLookup] DEFAULT VALUES;";
 

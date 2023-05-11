@@ -1,5 +1,4 @@
-﻿using Tactify.Core.Boards;
-using Tactify.Core.Tickets.ValueObjects;
+﻿using Tactify.Core.Tickets.ValueObjects;
 
 namespace Tactify.Api.Models
 {

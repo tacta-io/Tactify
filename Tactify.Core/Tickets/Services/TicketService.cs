@@ -23,7 +23,7 @@ namespace Tactify.Core.Tickets.Services
 
             if (board.IsArchived) throw new Exception($"Board {ticketInfo.BoardId} is archived.");
 
-            var ticketNumber = await _ticketRepository.GetNextTicketNumber().ConfigureAwait(false);
+            var ticketNumber = await _ticketRepository.GetNextTicketNumberAsync().ConfigureAwait(false);
 
             var ticket = Ticket.OpenTicket(ticketInfo.WithTicketNumber(ticketNumber));
 

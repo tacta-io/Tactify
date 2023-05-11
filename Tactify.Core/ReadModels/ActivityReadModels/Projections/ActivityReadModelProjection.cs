@@ -23,7 +23,7 @@ namespace Tactify.Core.ReadModels.ActivityReadModels.Projections
                 CreatedAt = @event.CreatedAt,
                 CreatedBy = @event.CreatedBy,
                 Name = @event.GetType().Name,
-                Description = @event.AggregateId
+                Description = $"{@event.AggregateId} created"
             };
 
             await _activityReadModelRepository.InsertAsync(activity).ConfigureAwait(false);
@@ -37,7 +37,7 @@ namespace Tactify.Core.ReadModels.ActivityReadModels.Projections
                 CreatedAt = @event.CreatedAt,
                 CreatedBy = @event.CreatedBy,
                 Name = @event.GetType().Name,
-                Description = $"{@event.AggregateId} {@event.SprintId}"
+                Description = $"{@event.SprintId} created on {@event.AggregateId}"
             };
 
             await _activityReadModelRepository.InsertAsync(activity).ConfigureAwait(false);
@@ -51,7 +51,7 @@ namespace Tactify.Core.ReadModels.ActivityReadModels.Projections
                 CreatedAt = @event.CreatedAt,
                 CreatedBy = @event.CreatedBy,
                 Name = @event.GetType().Name,
-                Description = $"{@event.AggregateId} {@event.SprintId}"
+                Description = $"{@event.SprintId} started on {@event.AggregateId}"
             };
 
             await _activityReadModelRepository.InsertAsync(activity).ConfigureAwait(false);
@@ -65,7 +65,7 @@ namespace Tactify.Core.ReadModels.ActivityReadModels.Projections
                 CreatedAt = @event.CreatedAt,
                 CreatedBy = @event.CreatedBy,
                 Name = @event.GetType().Name,
-                Description = $"{@event.AggregateId} {@event.SprintId}"
+                Description = $"{@event.SprintId} ended on {@event.AggregateId}"
             };
             await _activityReadModelRepository.InsertAsync(activity).ConfigureAwait(false);
         }
@@ -78,7 +78,7 @@ namespace Tactify.Core.ReadModels.ActivityReadModels.Projections
                 CreatedAt = @event.CreatedAt,
                 CreatedBy = @event.CreatedBy,
                 Name = @event.GetType().Name,
-                Description = @event.AggregateId
+                Description = $"{@event.AggregateId} archived"
             };
 
             await _activityReadModelRepository.InsertAsync(activity).ConfigureAwait(false);
@@ -92,7 +92,7 @@ namespace Tactify.Core.ReadModels.ActivityReadModels.Projections
                 CreatedAt = @event.CreatedAt,
                 CreatedBy = @event.CreatedBy,
                 Name = @event.GetType().Name,
-                Description = @event.AggregateId
+                Description = $"{@event.AggregateId} opened"
             };
 
             await _activityReadModelRepository.InsertAsync(activity).ConfigureAwait(false);
@@ -106,7 +106,7 @@ namespace Tactify.Core.ReadModels.ActivityReadModels.Projections
                 CreatedAt = @event.CreatedAt,
                 CreatedBy = @event.CreatedBy,
                 Name = @event.GetType().Name,
-                Description = $"{@event.AggregateId} {@event.NumberOfDays}MD"
+                Description = $"{@event.AggregateId} estimated to {@event.NumberOfDays} MD"
             };
 
             await _activityReadModelRepository.InsertAsync(activity).ConfigureAwait(false);
@@ -148,7 +148,7 @@ namespace Tactify.Core.ReadModels.ActivityReadModels.Projections
                 CreatedAt = @event.CreatedAt,
                 CreatedBy = @event.CreatedBy,
                 Name = @event.GetType().Name,
-                Description = @event.AggregateId
+                Description = $"{@event.AggregateId} closed"
             };
 
             await _activityReadModelRepository.InsertAsync(activity).ConfigureAwait(false);
