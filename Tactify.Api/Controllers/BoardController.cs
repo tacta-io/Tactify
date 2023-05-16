@@ -80,7 +80,7 @@ namespace Tactify.Api.Controllers
         {
             var boards = await _boardReadModelService.GetBoardReadModels().ConfigureAwait(false);
 
-            return Ok(boards.Select(x => new GetBoardsResponse(x)));
+            return Ok(boards);
         }
 
         [HttpGet]
@@ -89,7 +89,7 @@ namespace Tactify.Api.Controllers
         {
             var sprints = await _sprintReadModelService.GetSprintReadModels(boardId).ConfigureAwait(false);
 
-            return Ok(sprints.Select(x => new GetSprintsResponse(x)));
+            return Ok(sprints);
         }
 
         [HttpGet]

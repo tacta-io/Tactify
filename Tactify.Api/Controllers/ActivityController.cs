@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Tactify.Api.Models;
 using Tactify.Core.ReadModels.ActivityReadModels.Services;
 
 namespace Tactify.Api.Controllers
@@ -21,7 +20,7 @@ namespace Tactify.Api.Controllers
         {
             var activities = await _activityReadModelService.GetActivityReadModels().ConfigureAwait(false);
 
-            return Ok(activities.Select(x => new GetActivitiesResponse(x)));
+            return Ok(activities);
         }
     }
 }
