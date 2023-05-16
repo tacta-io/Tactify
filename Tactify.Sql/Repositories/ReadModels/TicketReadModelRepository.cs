@@ -16,6 +16,20 @@ namespace Tactify.Sql.Repositories.ReadModels
             _sqlConnectionFactory = sqlConnectionFactory;
         }
 
+        public async Task<TicketReadModel> GetAsync(string ticketId)
+        {
+            var select =
+                @$"SELECT [TicketId], [BoardId], [SprintId], [Description], [Assignee], [Estimation], [IsClosed], [Sequence] 
+                FROM {_tableName} 
+                WHERE [TicketId] = @TicketId";
+
+            await using var connection = _sqlConnectionFactory.SqlConnection();
+
+            var args = new { TicketId = ticketId };
+
+            return await connection.QuerySingleOrDefaultAsync<TicketReadModel>(select, args).ConfigureAwait(false);
+        }
+
         public async Task<IEnumerable<TicketReadModel>> GetAsync(string boardId, string? sprintId)
         {
             var select =

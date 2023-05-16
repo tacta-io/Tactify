@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Tactify.Api.Models;
 using Tactify.Core.Boards.Entities;
+using Tactify.Core.ReadModels.TicketReadModels.Services;
 using Tactify.Core.Tickets;
 using Tactify.Core.Tickets.Services;
 
@@ -10,10 +11,12 @@ namespace Tactify.Api.Controllers
     public class TicketController : BaseController
     {
         private readonly ITicketService _ticketService;
+        private readonly ITicketReadModelService _ticketReadModelService;
 
-        public TicketController(ITicketService ticketService)
+        public TicketController(ITicketService ticketService, ITicketReadModelService ticketReadModelService)
         {
             _ticketService = ticketService;
+            _ticketReadModelService = ticketReadModelService;
         }
 
         [HttpPost]
@@ -59,6 +62,15 @@ namespace Tactify.Api.Controllers
             await _ticketService.CloseTicket(TicketId.Identity(ticketId), Username).ConfigureAwait(false);
 
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("{ticketId}")]
+        public async Task<ActionResult> GetTicket([FromRoute] string ticketId)
+        {
+            var ticket = await _ticketReadModelService.GetTicketReadModel(ticketId).ConfigureAwait(false);
+
+            return Ok(ticket);
         }
     }
 }

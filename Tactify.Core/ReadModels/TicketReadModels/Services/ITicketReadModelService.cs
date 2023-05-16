@@ -2,6 +2,9 @@
 {
     public interface ITicketReadModelService
     {
+
+        Task<TicketReadModel> GetTicketReadModel(string ticketId);
+
         Task<IEnumerable<TicketReadModel>> GetTicketReadModels(string boardId, string? sprintId);
     }
 }

@@ -4,6 +4,8 @@ namespace Tactify.Core.ReadModels.TicketReadModels.Repositories
 {
     public interface ITicketReadModelRepository : IProjectionRepository
     {
+        Task<TicketReadModel> GetAsync(string ticketId);
+
         Task<IEnumerable<TicketReadModel>> GetAsync(string boardId, string? sprintId);
 
         Task OnTicketOpenedAsync(TicketReadModel ticketReadModel);

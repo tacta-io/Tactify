@@ -4,6 +4,7 @@ using Tactify.Core.Boards;
 using Tactify.Core.Boards.Services;
 using Tactify.Core.ReadModels.BoardReadModels.Services;
 using Tactify.Core.ReadModels.SprintReadModels.Services;
+using Tactify.Core.ReadModels.TicketReadModels.Services;
 
 namespace Tactify.Api.Controllers
 {
@@ -14,15 +15,18 @@ namespace Tactify.Api.Controllers
         private readonly IBoardService _boardService;
         private readonly IBoardReadModelService _boardReadModelService;
         private readonly ISprintReadModelService _sprintReadModelService;
+        private readonly ITicketReadModelService _ticketReadModelService;
 
         public BoardController(
             IBoardService boardService, 
             IBoardReadModelService boardReadModelService,
-            ISprintReadModelService sprintReadModelService)
+            ISprintReadModelService sprintReadModelService,
+            ITicketReadModelService ticketReadModelService)
         {
             _boardService = boardService;
             _boardReadModelService = boardReadModelService;
             _sprintReadModelService = sprintReadModelService;
+            _ticketReadModelService = ticketReadModelService;
         }
 
         [HttpPost]
@@ -86,6 +90,24 @@ namespace Tactify.Api.Controllers
             var sprints = await _sprintReadModelService.GetSprintReadModels(boardId).ConfigureAwait(false);
 
             return Ok(sprints.Select(x => new GetSprintsResponse(x)));
+        }
+
+        [HttpGet]
+        [Route("{boardId}/backlog")]
+        public async Task<ActionResult> GetBacklog([FromRoute] string boardId)
+        {
+            var tickets = await _ticketReadModelService.GetTicketReadModels(boardId, null).ConfigureAwait(false);
+
+            return Ok(tickets);
+        }
+
+        [HttpGet]
+        [Route("{boardId}/{sprintId}/tickets")]
+        public async Task<ActionResult> GetTickets([FromRoute] string boardId, [FromRoute] string sprintId)
+        {
+            var tickets = await _ticketReadModelService.GetTicketReadModels(boardId, sprintId).ConfigureAwait(false);
+
+            return Ok(tickets);
         }
     }
 }
