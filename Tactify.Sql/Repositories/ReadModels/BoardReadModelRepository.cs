@@ -20,7 +20,7 @@ namespace Tactify.Sql.Repositories.ReadModels
         {
             var select = $"SELECT [BoardId], [Description], [IsArchived], [Sequence] FROM {_tableName}";
 
-            await using var connection = _sqlConnectionFactory.SqlConnection();
+            using var connection = _sqlConnectionFactory.SqlConnection();
 
             return await connection.QueryAsync<BoardReadModel>(select).ConfigureAwait(false);
         }
@@ -29,7 +29,7 @@ namespace Tactify.Sql.Repositories.ReadModels
         {
             var insert = $"INSERT INTO {_tableName} VALUES (@BoardId, @Description, @IsArchived, @Sequence)";
 
-            await using var connection = _sqlConnectionFactory.SqlConnection();
+            using var connection = _sqlConnectionFactory.SqlConnection();
 
             await connection.ExecuteAsync(insert, boardReadModel).ConfigureAwait(false);
         }
@@ -38,7 +38,7 @@ namespace Tactify.Sql.Repositories.ReadModels
         {
             var update = $"UPDATE {_tableName} SET [IsArchived] = @IsArchived WHERE [BoardId] = @BoardId";
 
-            await using var connection = _sqlConnectionFactory.SqlConnection();
+            using var connection = _sqlConnectionFactory.SqlConnection();
 
             await connection.ExecuteAsync(update, boardReadModel).ConfigureAwait(false);
         }      

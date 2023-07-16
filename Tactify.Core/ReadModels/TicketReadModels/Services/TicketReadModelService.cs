@@ -16,9 +16,14 @@ namespace Tactify.Core.ReadModels.TicketReadModels.Services
             return await _ticketReadModelRepository.GetAsync(ticketId).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<TicketReadModel>> GetTicketReadModels(string boardId, string? sprintId)
+        public async Task<IEnumerable<TicketReadModel>> GetTicketReadModels(string boardId, string sprintId)
         {
             return await _ticketReadModelRepository.GetAsync(boardId, sprintId).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<TicketReadModel>> GetBacklog(string boardId)
+        {
+            return await _ticketReadModelRepository.GetBacklogAsync(boardId).ConfigureAwait(false);
         }
     }
 }

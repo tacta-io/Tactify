@@ -50,7 +50,7 @@ namespace Tactify.Sql.Repositories
 
             const string select = "SELECT CAST (SCOPE_IDENTITY() AS INT);";
 
-            await using var connection = _sqlConnectionFactory.SqlConnection();
+            using var connection = _sqlConnectionFactory.SqlConnection();
 
             return await connection.QueryFirstAsync<int>($"{insert} {select}").ConfigureAwait(false);
         }

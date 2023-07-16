@@ -6,7 +6,9 @@ namespace Tactify.Core.ReadModels.TicketReadModels.Repositories
     {
         Task<TicketReadModel> GetAsync(string ticketId);
 
-        Task<IEnumerable<TicketReadModel>> GetAsync(string boardId, string? sprintId);
+        Task<IEnumerable<TicketReadModel>> GetAsync(string boardId, string sprintId);
+
+        Task<IEnumerable<TicketReadModel>> GetBacklogAsync(string boardId);
 
         Task OnTicketOpenedAsync(TicketReadModel ticketReadModel);
 

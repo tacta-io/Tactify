@@ -20,7 +20,7 @@ namespace Tactify.Sql.Repositories.ReadModels
         {
             var insert = $"INSERT INTO {_tableName} VALUES (@CreatedAt, @CreatedBy, @Name, @Description, @Sequence)";
 
-            await using var connection = _sqlConnectionFactory.SqlConnection();
+            using var connection = _sqlConnectionFactory.SqlConnection();
 
             await connection.ExecuteAsync(insert, activityReadModel).ConfigureAwait(false);
         }
@@ -31,7 +31,7 @@ namespace Tactify.Sql.Repositories.ReadModels
                 @$"SELECT TOP (100) [CreatedAt], [CreatedBy], [Name], [Description], [Sequence] 
                 FROM {_tableName} ORDER BY [Sequence] DESC";
 
-            await using var connection = _sqlConnectionFactory.SqlConnection();
+            using var connection = _sqlConnectionFactory.SqlConnection();
 
             return await connection.QueryAsync<ActivityReadModel>(select).ConfigureAwait(false);
         }

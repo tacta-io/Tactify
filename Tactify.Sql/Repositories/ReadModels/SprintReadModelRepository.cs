@@ -20,7 +20,7 @@ namespace Tactify.Sql.Repositories.ReadModels
         {
             var select = $"SELECT * FROM {_tableName} WHERE [BoardId] = @BoardId";
 
-            await using var connection = _sqlConnectionFactory.SqlConnection();
+            using var connection = _sqlConnectionFactory.SqlConnection();
 
             var args = new { BoardId = boardId };
 
@@ -33,7 +33,7 @@ namespace Tactify.Sql.Repositories.ReadModels
                 @$"INSERT INTO {_tableName} 
                 VALUES (@BoardId, @SprintId, @Status, @CreatedAt, @StartedAt, @EndedAt, @Sequence)";
 
-            await using var connection = _sqlConnectionFactory.SqlConnection();
+            using var connection = _sqlConnectionFactory.SqlConnection();
 
             await connection.ExecuteAsync(insert, sprintReadModel).ConfigureAwait(false);
         }
@@ -45,7 +45,7 @@ namespace Tactify.Sql.Repositories.ReadModels
                 SET [Status] = @Status, [StartedAt] = @StartedAt, [Sequence] = @Sequence
                 WHERE [BoardId] = @BoardId AND [SprintId] = @SprintId";
 
-            await using var connection = _sqlConnectionFactory.SqlConnection();
+            using var connection = _sqlConnectionFactory.SqlConnection();
 
             await connection.ExecuteAsync(update, sprintReadModel).ConfigureAwait(false);
         }
@@ -57,7 +57,7 @@ namespace Tactify.Sql.Repositories.ReadModels
                 SET [Status] = @Status, [EndedAt] = @EndedAt, [Sequence] = @Sequence
                 WHERE [BoardId] = @BoardId AND [SprintId] = @SprintId";
 
-            await using var connection = _sqlConnectionFactory.SqlConnection();
+            using var connection = _sqlConnectionFactory.SqlConnection();
 
             await connection.ExecuteAsync(update, sprintReadModel).ConfigureAwait(false);
         }

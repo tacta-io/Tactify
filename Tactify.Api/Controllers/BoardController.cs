@@ -96,7 +96,7 @@ namespace Tactify.Api.Controllers
         [Route("{boardId}/backlog")]
         public async Task<ActionResult> GetBacklog([FromRoute] string boardId)
         {
-            var tickets = await _ticketReadModelService.GetTicketReadModels(boardId, null).ConfigureAwait(false);
+            var tickets = await _ticketReadModelService.GetBacklog(boardId).ConfigureAwait(false);
 
             return Ok(tickets);
         }

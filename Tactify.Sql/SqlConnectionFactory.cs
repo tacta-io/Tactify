@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using System.Data;
 using Tacta.EventStore.Repository;
 
 namespace Tactify.Sql
@@ -6,15 +7,17 @@ namespace Tactify.Sql
     public class SqlConnectionFactory : ISqlConnectionFactory
     {
 
-        private readonly string _connectionString;       
+        private readonly string _connectionString;
+
+        public IDbTransaction? Transaction => null;
 
         public SqlConnectionFactory(string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public SqlConnection SqlConnection() => new SqlConnection(ConnectionString());
-
         public virtual string ConnectionString() => _connectionString;
+
+        IDbConnection ISqlConnectionFactory.SqlConnection() => new SqlConnection(ConnectionString());
     }
 }
