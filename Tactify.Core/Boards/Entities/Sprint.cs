@@ -16,14 +16,8 @@ namespace Tactify.Core.Boards.Entities
             Status = SprintStatus.Created;
         }
 
-        public void StartSprint()
-        {
-            Status = SprintStatus.Active;
-        }
+        public void SprintStarted() => Status = SprintStatus.Active;
 
-        public void EndSprint()
-        {
-            Status = SprintStatus.Ended;
-        }
+        public void SprintEnded() => Status = SprintStatus.Ended;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tactify.Core.Boards;
 using Tactify.Core.Boards.DomainEvents;
+using Tactify.Core.Boards.Exceptions;
 using Tactify.Core.Boards.ValueObjects;
 
 namespace Tactify.Core.Test.Boards
@@ -39,7 +40,7 @@ namespace Tactify.Core.Test.Boards
             Board createBoard() => Board.CreateBoard(new BoardInfo(boardName, description, _username));
 
             // Then
-            Assert.ThrowsException<Exception>(createBoard);
+            Assert.ThrowsException<ArgumentException>(createBoard);
         }
 
         [TestMethod]
@@ -53,7 +54,7 @@ namespace Tactify.Core.Test.Boards
             Board createBoard() => Board.CreateBoard(new BoardInfo(boardName, description, _username));
 
             // Then
-            Assert.ThrowsException<Exception>(createBoard);
+            Assert.ThrowsException<ArgumentException>(createBoard);
         }
 
         [TestMethod]
@@ -106,7 +107,7 @@ namespace Tactify.Core.Test.Boards
             void createNewSprint() => board.CreateNewSprint(_username);
 
             // Then
-            Assert.ThrowsException<Exception>(createNewSprint);
+            Assert.ThrowsException<CannotCreateNewSprintException>(createNewSprint);
             Assert.IsFalse(board.DomainEvents.Any(x => x is SprintCreated));
         }
 
@@ -145,7 +146,7 @@ namespace Tactify.Core.Test.Boards
             void startNextSprint() => board.StartNextSprint(_username);
 
             // Then
-            Assert.ThrowsException<Exception>(startNextSprint);
+            Assert.ThrowsException<CannotStartNextSprintException>(startNextSprint);
         }
 
         [TestMethod]
@@ -162,7 +163,7 @@ namespace Tactify.Core.Test.Boards
             void startNextSprint() => board.StartNextSprint(_username);
 
             // Then
-            Assert.ThrowsException<Exception>(startNextSprint);
+            Assert.ThrowsException<CannotStartNextSprintException>(startNextSprint);
         }
 
 
@@ -176,7 +177,7 @@ namespace Tactify.Core.Test.Boards
             void startNextSprint() => board.StartNextSprint(_username);
 
             // Then
-            Assert.ThrowsException<Exception>(startNextSprint);
+            Assert.ThrowsException<CannotStartNextSprintException>(startNextSprint);
             Assert.IsFalse(board.DomainEvents.Any(x => x is SprintStarted));
         }
 
@@ -194,7 +195,7 @@ namespace Tactify.Core.Test.Boards
             void startNextSprint() => board.StartNextSprint(_username);
 
             // Then
-            Assert.ThrowsException<Exception>(startNextSprint);
+            Assert.ThrowsException<CannotStartNextSprintException>(startNextSprint);
         }
 
         [TestMethod]
@@ -232,7 +233,7 @@ namespace Tactify.Core.Test.Boards
             void endActiveSprint() => board.EndActiveSprint(_username);
 
             // Then
-            Assert.ThrowsException<Exception>(endActiveSprint);
+            Assert.ThrowsException<CannotEndActiveSprintException>(endActiveSprint);
         }
 
         [TestMethod]
@@ -247,7 +248,7 @@ namespace Tactify.Core.Test.Boards
             void endActiveSprint() => board.EndActiveSprint(_username);
 
             // Then
-            Assert.ThrowsException<Exception>(endActiveSprint);
+            Assert.ThrowsException<CannotEndActiveSprintException>(endActiveSprint);
             Assert.IsFalse(board.DomainEvents.Any(x => x is SprintEnded));
         }
 
@@ -286,7 +287,7 @@ namespace Tactify.Core.Test.Boards
             void archiveBoard() => board.ArchiveBoard(_username);
 
             // Then
-            Assert.ThrowsException<Exception>(archiveBoard);
+            Assert.ThrowsException<CannotArchiveBoardException>(archiveBoard);
         }
 
         [TestMethod]
@@ -305,7 +306,7 @@ namespace Tactify.Core.Test.Boards
             void archiveBoard() => board.ArchiveBoard(_username);
 
             // Then
-            Assert.ThrowsException<Exception>(archiveBoard);
+            Assert.ThrowsException<CannotArchiveBoardException>(archiveBoard);
         }
     }
 }

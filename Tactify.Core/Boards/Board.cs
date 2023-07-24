@@ -1,6 +1,7 @@
 ﻿using Tacta.EventStore.Domain;
 using Tactify.Core.Boards.DomainEvents;
 using Tactify.Core.Boards.Entities;
+using Tactify.Core.Boards.Exceptions;
 using Tactify.Core.Boards.ValueObjects;
 
 namespace Tactify.Core.Boards
@@ -48,7 +49,7 @@ namespace Tactify.Core.Boards
 
         public void CreateNewSprint(string createdBy)
         {
-            if (IsArchived) throw new Exception($"Board {Id} is archived.");           
+            if (IsArchived) throw new CannotCreateNewSprintException($"Board {Id} is archived.");           
 
             var sprintId = new SprintId(NewSprintNumber);
 
@@ -59,11 +60,11 @@ namespace Tactify.Core.Boards
 
         public void StartNextSprint(string createdBy)
         {
-            if (IsArchived) throw new Exception($"Board {Id} is archived.");
+            if (IsArchived) throw new CannotStartNextSprintException($"Board {Id} is archived.");
 
-            if (ActiveSprint != null) throw new Exception($"There is already active sprint {ActiveSprint.Id}.");
+            if (ActiveSprint != null) throw new CannotStartNextSprintException($"There is already active sprint {ActiveSprint.Id}.");
 
-            if (NextSprintToStart == null) throw new Exception($"There is no created sprint to start.");
+            if (NextSprintToStart == null) throw new CannotStartNextSprintException($"There is no created sprint to start.");
 
             var @event = new SprintStarted(Id.ToString(), NextSprintToStart.Id.ToString(), createdBy);
 
@@ -72,9 +73,9 @@ namespace Tactify.Core.Boards
 
         public void EndActiveSprint(string createdBy)
         {
-            if (IsArchived) throw new Exception($"Board {Id} is archived.");
+            if (IsArchived) throw new CannotEndActiveSprintException($"Board {Id} is archived.");
 
-            if (ActiveSprint == null) throw new Exception($"There is no active sprint to end.");
+            if (ActiveSprint == null) throw new CannotEndActiveSprintException($"There is no active sprint to end.");
 
             var @event = new SprintEnded(Id.ToString(), ActiveSprint.Id.ToString(), createdBy);
 
@@ -83,9 +84,9 @@ namespace Tactify.Core.Boards
 
         public void ArchiveBoard(string createdBy)
         {
-            if (IsArchived) throw new Exception($"Board {Id} is already archived.");
+            if (IsArchived) throw new CannotArchiveBoardException($"Board {Id} is already archived.");
 
-            if (Sprints.Any(x => x.Status != SprintStatus.Ended)) throw new Exception($"Not all sprints ended on the board {Id}.");
+            if (Sprints.Any(x => x.Status != SprintStatus.Ended)) throw new CannotArchiveBoardException($"Not all sprints ended on the board {Id}.");
 
             var @event = new BoardArchived(Id.ToString(), createdBy);
 
@@ -111,14 +112,14 @@ namespace Tactify.Core.Boards
         {
             var sprint = SprintById(@event.SprintId);
 
-            sprint.StartSprint();
+            sprint.SprintStarted();
         }
 
         public void On(SprintEnded @event)
         {
             var sprint = SprintById(@event.SprintId);
 
-            sprint.EndSprint();
+            sprint.SprintEnded();
         }
 
         public void On(BoardArchived _)

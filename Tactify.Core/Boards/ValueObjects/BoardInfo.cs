@@ -12,9 +12,9 @@ namespace Tactify.Core.Boards.ValueObjects
 
         public BoardInfo(string name, string description, string createdBy)
         {
-            if (string.IsNullOrWhiteSpace(name)) throw new Exception("Board needs to have unique name.");
+            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Board needs to have unique name.");
 
-            if (string.IsNullOrWhiteSpace(description)) throw new Exception("Board description is mandatory.");
+            if (string.IsNullOrWhiteSpace(description)) throw new ArgumentException("Board description is mandatory.");
 
             Name = name;
             Description = description;

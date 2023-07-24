@@ -1,6 +1,7 @@
 ﻿using Tacta.EventStore.Domain;
 using Tactify.Core.Boards.Entities;
 using Tactify.Core.Tickets.DomainEvents;
+using Tactify.Core.Tickets.Exceptions;
 using Tactify.Core.Tickets.ValueObjects;
 
 namespace Tactify.Core.Tickets
@@ -40,9 +41,9 @@ namespace Tactify.Core.Tickets
 
         public void EstimateTicket(int numberOfDays, string createdBy)
         {
-            if (IsClosed) throw new Exception($"Closed ticket {Id} can not be changed.");
+            if (IsClosed) throw new CannotEstimateTicketException($"Closed ticket {Id} can not be changed.");
 
-            if (numberOfDays < 0) throw new Exception($"Estimation {numberOfDays} in not valid.");
+            if (numberOfDays < 0) throw new CannotEstimateTicketException($"Estimation {numberOfDays} in not valid.");
 
             var @event = new TicketEstimated(Id.ToString(), numberOfDays, createdBy);
 
@@ -51,11 +52,11 @@ namespace Tactify.Core.Tickets
 
         public void MoveTicketToSprint(SprintId sprintId, string createdBy)
         {
-            if (IsClosed) throw new Exception($"Closed ticket {Id} can not be changed.");
+            if (IsClosed) throw new CannotMoveTicketToSprintException($"Closed ticket {Id} can not be moved to a sprint.");
 
-            if (!IsEstimated) throw new Exception($"Ticket {Id} is not estimated.");
+            if (!IsEstimated) throw new CannotMoveTicketToSprintException($"Ticket {Id} needs to be estimated first.");
 
-            if (sprintId == null) throw new Exception($"Invalid sprint {sprintId} to move the ticket to.");
+            if (sprintId == null) throw new CannotMoveTicketToSprintException($"Missing sprint to move the ticket {Id} to.");
 
             var @event = new TicketMovedToSprint(Id.ToString(), sprintId.ToString(), createdBy);
 
@@ -64,9 +65,9 @@ namespace Tactify.Core.Tickets
 
         public void AssignTicket(string assignee, string createdBy)
         {
-            if (IsClosed) throw new Exception($"Closed ticket {Id} can not be changed.");
+            if (IsClosed) throw new CannotAssignTicketException($"Closed ticket {Id} can not be changed.");
 
-            if (string.IsNullOrWhiteSpace(assignee)) throw new Exception($"Invalid assignee {assignee}.");
+            if (string.IsNullOrWhiteSpace(assignee)) throw new CannotAssignTicketException($"Invalid assignee {assignee}.");
 
             var @event = new TicketAssigned(Id.ToString(), assignee, createdBy);
 
@@ -75,7 +76,7 @@ namespace Tactify.Core.Tickets
 
         public void CloseTicket(string createdBy)
         {
-            if (IsClosed) throw new Exception($"Ticket {Id} is already closed.");
+            if (IsClosed) throw new CannotCloseTicketException($"Ticket {Id} is already closed.");
 
             var @event = new TicketClosed(Id.ToString(), createdBy);
 

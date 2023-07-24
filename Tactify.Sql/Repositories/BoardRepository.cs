@@ -1,6 +1,7 @@
 ﻿using Tacta.EventStore.Domain;
 using Tacta.EventStore.Repository;
 using Tactify.Core.Boards;
+using Tactify.Core.Boards.Exceptions;
 using Tactify.Core.Boards.Repositories;
 
 namespace Tactify.Sql.Repositories
@@ -22,7 +23,7 @@ namespace Tactify.Sql.Repositories
 
             var domainEvents = eventStoreRecords.Select(x => x.Event).ToList().AsReadOnly();
 
-            if (!domainEvents.Any()) throw new Exception($"Board {boardId} not found.");
+            if (!domainEvents.Any()) throw new CannotFindBoardException($"Board {boardId} not found.");
 
             return new Board(domainEvents);
         }

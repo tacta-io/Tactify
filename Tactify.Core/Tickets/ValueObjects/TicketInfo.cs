@@ -16,9 +16,9 @@ namespace Tactify.Core.Tickets.ValueObjects
 
         public TicketInfo(BoardId boardId, string description, string createdBy, int ticketNumber = 0)
         {
-            if (boardId == null) throw new Exception("Ticket needs to belong to a board.");          
+            if (boardId == null) throw new ArgumentException("Ticket needs to belong to a board.");          
 
-            if (string.IsNullOrWhiteSpace(description)) throw new Exception("Ticket description is mandatory.");
+            if (string.IsNullOrWhiteSpace(description)) throw new ArgumentException("Ticket description is mandatory.");
 
             BoardId = boardId;
             TicketNumber = ticketNumber;
@@ -28,7 +28,7 @@ namespace Tactify.Core.Tickets.ValueObjects
 
         public TicketInfo WithTicketNumber(int ticketNumber)
         {
-            if (ticketNumber <= 0) throw new Exception("Ticket needs to have valid ticket number.");
+            if (ticketNumber <= 0) throw new ArgumentException("Ticket needs to have valid ticket number.");
            
             return new TicketInfo(BoardId, Description, CreatedBy, ticketNumber);
         }

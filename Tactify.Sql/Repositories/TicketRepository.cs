@@ -2,6 +2,7 @@
 using Tacta.EventStore.Domain;
 using Tacta.EventStore.Repository;
 using Tactify.Core.Tickets;
+using Tactify.Core.Tickets.Exceptions;
 using Tactify.Core.Tickets.Repositories;
 
 namespace Tactify.Sql.Repositories
@@ -28,7 +29,7 @@ namespace Tactify.Sql.Repositories
 
             var domainEvents = eventStoreRecords.Select(x => x.Event).ToList().AsReadOnly();
 
-            if (!domainEvents.Any()) throw new Exception($"Ticket {ticketId} not found.");
+            if (!domainEvents.Any()) throw new CannotFindTicketException($"Ticket {ticketId} not found.");
 
             return new Ticket(domainEvents);
         }       

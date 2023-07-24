@@ -1,5 +1,6 @@
 ﻿using Tactify.Core.Boards.Entities;
 using Tactify.Core.Boards.Repositories;
+using Tactify.Core.Tickets.Exceptions;
 using Tactify.Core.Tickets.Repositories;
 using Tactify.Core.Tickets.ValueObjects;
 
@@ -21,7 +22,7 @@ namespace Tactify.Core.Tickets.Services
         {
             var board = await _boardRepository.GetAsync(ticketInfo.BoardId).ConfigureAwait(false);
 
-            if (board.IsArchived) throw new Exception($"Board {ticketInfo.BoardId} is archived.");
+            if (board.IsArchived) throw new CannotOpenTicketException($"Board {ticketInfo.BoardId} is archived.");
 
             var ticketNumber = await _ticketRepository.GetNextTicketNumberAsync().ConfigureAwait(false);
 
@@ -43,7 +44,7 @@ namespace Tactify.Core.Tickets.Services
         {
             var board = await _boardRepository.GetAsync(ticketId.BoardId).ConfigureAwait(false);
 
-            if (board.SprintById(sprintId.ToString()).IsEnded) throw new Exception($"Sprint {sprintId} ended.");
+            if (board.SprintById(sprintId.ToString()).IsEnded) throw new CannotMoveTicketToSprintException($"Sprint {sprintId} ended.");
 
             var ticket = await _ticketRepository.GetAsync(ticketId).ConfigureAwait(false);
 
