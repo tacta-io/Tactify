@@ -57,7 +57,7 @@ namespace Tactify.Boundary
 
         public static void AddReadModelProjections(this IServiceCollection services)
         {
-            services.AddTransient<IProjectionProcessor, ProjectionProcessor>();
+            services.AddSingleton<IProjectionProcessor, ProjectionProcessor>();
             services.AddTransient<IProjection, BoardReadModelProjection>();
             services.AddTransient<IProjection, SprintReadModelProjection>();
             services.AddTransient<IProjection, TicketReadModelProjection>();
