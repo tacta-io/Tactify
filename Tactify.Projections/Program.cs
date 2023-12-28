@@ -1,12 +1,18 @@
 using Tactify.Boundary;
 using Tactify.Projections;
+using Microsoft.AspNetCore.Builder;
 
-Host.CreateDefaultBuilder(args).UseWindowsService().ConfigureServices(services =>
-{
-    services.AddHostedService<Worker>();
+var builder = WebApplication.CreateBuilder(args);
 
-    services.AddEventStore();
-    services.AddReadModelRepositories();
-    services.AddReadModelProjections();
+builder.Services.AddHostedService<Worker>();
+builder.Services.AddWindowsService();
+builder.Services.AddControllers();
+builder.Services.AddEventStore();
+builder.Services.AddReadModelRepositories();
+builder.Services.AddReadModelProjections();
 
-}).Build().Run();
+var host = builder.Build();
+
+host.MapControllers();
+
+host.Run();
