@@ -2,7 +2,7 @@
 {
     public sealed class BoardReadModel
     {
-        public int Sequence { get; set; }
+        public long Sequence { get; set; }
 
         public string BoardId { get; set; }
 

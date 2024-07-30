@@ -1,6 +1,8 @@
 ﻿using Dapper;
+using Tacta.Connection;
 using Tacta.EventStore.Domain;
 using Tacta.EventStore.Repository;
+using Tacta.EventStore.Repository.Models;
 using Tactify.Core.Tickets;
 using Tactify.Core.Tickets.Exceptions;
 using Tactify.Core.Tickets.Repositories;
@@ -11,10 +13,10 @@ namespace Tactify.Sql.Repositories
     {
         private readonly IEventStoreRepository _eventStoreRepository;
 
-        private readonly ISqlConnectionFactory _sqlConnectionFactory;
+        private readonly IConnectionFactory _sqlConnectionFactory;
 
 
-        public TicketRepository(IEventStoreRepository eventStoreRepository, ISqlConnectionFactory sqlConnectionFactory)
+        public TicketRepository(IEventStoreRepository eventStoreRepository, IConnectionFactory sqlConnectionFactory)
         {
             _eventStoreRepository = eventStoreRepository;
             _sqlConnectionFactory = sqlConnectionFactory;
@@ -51,7 +53,7 @@ namespace Tactify.Sql.Repositories
 
             const string select = "SELECT CAST (SCOPE_IDENTITY() AS INT);";
 
-            using var connection = _sqlConnectionFactory.SqlConnection();
+            await using var connection = _sqlConnectionFactory.Connection();
 
             return await connection.QueryFirstAsync<int>($"{insert} {select}").ConfigureAwait(false);
         }
