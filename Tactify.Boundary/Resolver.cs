@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Tacta.Connection;
+using Tacta.Connection.SqlClient;
 using Tacta.EventStore.Projector;
 using Tacta.EventStore.Repository;
 using Tactify.Core.Boards.Repositories;
@@ -17,7 +19,6 @@ using Tactify.Core.ReadModels.TicketReadModels.Repositories;
 using Tactify.Core.ReadModels.TicketReadModels.Services;
 using Tactify.Core.Tickets.Repositories;
 using Tactify.Core.Tickets.Services;
-using Tactify.Sql;
 using Tactify.Sql.Repositories;
 using Tactify.Sql.Repositories.ReadModels;
 
@@ -31,7 +32,14 @@ namespace Tactify.Boundary
             var connectionString =
                 "Data Source=localhost\\SQLEXPRESS;Initial Catalog=Tactify;Integrated Security=true;TrustServerCertificate=True;";
 
-            services.AddTransient<ISqlConnectionFactory>(sp => new SqlConnectionFactory(connectionString));
+            services.AddSingleton<ITransactionStore, TransactionStore>();
+            services.AddSingleton<IConnectionFactory>(sp =>
+            {
+                var transactionStore = sp.GetRequiredService<ITransactionStore>();
+                var connectionFactory = new SqlConnectionFactory(connectionString, transactionStore);
+                return connectionFactory;
+            });
+
             services.AddTransient<IEventStoreRepository, EventStoreRepository>();
             services.AddTransient<IBoardRepository, BoardRepository>();
             services.AddTransient<ITicketRepository, TicketRepository>();

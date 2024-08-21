@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Tacta.Connection;
 using Tacta.EventStore.Repository;
 using Tactify.Core.ReadModels.BoardReadModels;
 using Tactify.Core.ReadModels.BoardReadModels.Repositories;
@@ -7,11 +8,11 @@ namespace Tactify.Sql.Repositories.ReadModels
 {
     public sealed class BoardReadModelRepository : ProjectionRepository, IBoardReadModelRepository
     {
-        private readonly ISqlConnectionFactory _sqlConnectionFactory;
+        private readonly IConnectionFactory _sqlConnectionFactory;
 
         private static readonly string _tableName = "[dbo].[BoardReadModel]";
 
-        public BoardReadModelRepository(ISqlConnectionFactory sqlConnectionFactory) : base(sqlConnectionFactory, _tableName)
+        public BoardReadModelRepository(IConnectionFactory sqlConnectionFactory) : base(sqlConnectionFactory, _tableName)
         {
             _sqlConnectionFactory = sqlConnectionFactory;
         }
@@ -20,7 +21,7 @@ namespace Tactify.Sql.Repositories.ReadModels
         {
             var select = $"SELECT [BoardId], [Description], [IsArchived], [Sequence] FROM {_tableName}";
 
-            using var connection = _sqlConnectionFactory.SqlConnection();
+            await using var connection = _sqlConnectionFactory.Connection();
 
             return await connection.QueryAsync<BoardReadModel>(select).ConfigureAwait(false);
         }
@@ -29,7 +30,7 @@ namespace Tactify.Sql.Repositories.ReadModels
         {
             var insert = $"INSERT INTO {_tableName} VALUES (@BoardId, @Description, @IsArchived, @Sequence)";
 
-            using var connection = _sqlConnectionFactory.SqlConnection();
+            await using var connection = _sqlConnectionFactory.Connection();
 
             await connection.ExecuteAsync(insert, boardReadModel).ConfigureAwait(false);
         }
@@ -38,7 +39,7 @@ namespace Tactify.Sql.Repositories.ReadModels
         {
             var update = $"UPDATE {_tableName} SET [IsArchived] = @IsArchived WHERE [BoardId] = @BoardId";
 
-            using var connection = _sqlConnectionFactory.SqlConnection();
+            await using var connection = _sqlConnectionFactory.Connection();
 
             await connection.ExecuteAsync(update, boardReadModel).ConfigureAwait(false);
         }      

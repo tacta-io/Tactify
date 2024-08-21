@@ -2,7 +2,7 @@
 {
     public sealed class ActivityReadModel
     {
-        public int Sequence { get; set; }
+        public long Sequence { get; set; }
 
         public DateTime CreatedAt { get; set; }
 

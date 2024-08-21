@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Tacta.Connection;
 using Tacta.EventStore.Repository;
 using Tactify.Core.ReadModels.TicketReadModels;
 using Tactify.Core.ReadModels.TicketReadModels.Repositories;
@@ -7,11 +8,11 @@ namespace Tactify.Sql.Repositories.ReadModels
 {
     public sealed class TicketReadModelRepository : ProjectionRepository, ITicketReadModelRepository
     {
-        private readonly ISqlConnectionFactory _sqlConnectionFactory;
+        private readonly IConnectionFactory _sqlConnectionFactory;
 
         private static readonly string _tableName = "[dbo].[TicketReadModel]";
 
-        public TicketReadModelRepository(ISqlConnectionFactory sqlConnectionFactory) : base(sqlConnectionFactory, _tableName)
+        public TicketReadModelRepository(IConnectionFactory sqlConnectionFactory) : base(sqlConnectionFactory, _tableName)
         {
             _sqlConnectionFactory = sqlConnectionFactory;
         }
@@ -23,7 +24,7 @@ namespace Tactify.Sql.Repositories.ReadModels
                 FROM {_tableName} 
                 WHERE [TicketId] = @TicketId";
 
-            using var connection = _sqlConnectionFactory.SqlConnection();
+            await using var connection = _sqlConnectionFactory.Connection();
 
             var args = new { TicketId = ticketId };
 
@@ -37,7 +38,7 @@ namespace Tactify.Sql.Repositories.ReadModels
                 FROM {_tableName} 
                 WHERE [BoardId] = @BoardId AND [SprintId] = @SprintId";
 
-            using var connection = _sqlConnectionFactory.SqlConnection();
+            await using var connection = _sqlConnectionFactory.Connection();
 
             var args = new { BoardId = boardId, SprintId = sprintId };
 
@@ -51,7 +52,7 @@ namespace Tactify.Sql.Repositories.ReadModels
                 FROM {_tableName} 
                 WHERE [BoardId] = @BoardId AND [SprintId] IS NULL";
 
-            using var connection = _sqlConnectionFactory.SqlConnection();
+            await using var connection = _sqlConnectionFactory.Connection();
 
             var args = new { BoardId = boardId };
 
@@ -64,7 +65,7 @@ namespace Tactify.Sql.Repositories.ReadModels
                 @$"INSERT INTO {_tableName} 
                 VALUES (@TicketId, @BoardId, @SprintId, @Description, @Assignee, @Estimation, @IsClosed, @Sequence)";
 
-            using var connection = _sqlConnectionFactory.SqlConnection();
+            await using var connection = _sqlConnectionFactory.Connection();
 
             await connection.ExecuteAsync(insert, ticketReadModel).ConfigureAwait(false);
         }
@@ -76,7 +77,7 @@ namespace Tactify.Sql.Repositories.ReadModels
                 SET [Estimation] = @Estimation, [Sequence] = @Sequence
                 WHERE [TicketId] = @TicketId";
 
-            using var connection = _sqlConnectionFactory.SqlConnection();
+            await using var connection = _sqlConnectionFactory.Connection();
 
             await connection.ExecuteAsync(update, ticketReadModel).ConfigureAwait(false);
         }
@@ -88,7 +89,7 @@ namespace Tactify.Sql.Repositories.ReadModels
                 SET [SprintId] = @SprintId, [Sequence] = @Sequence
                 WHERE [TicketId] = @TicketId";
 
-            using var connection = _sqlConnectionFactory.SqlConnection();
+            await using var connection = _sqlConnectionFactory.Connection();
 
             await connection.ExecuteAsync(update, ticketReadModel).ConfigureAwait(false);
         }
@@ -100,7 +101,7 @@ namespace Tactify.Sql.Repositories.ReadModels
                 SET [Assignee] = @Assignee, [Sequence] = @Sequence
                 WHERE [TicketId] = @TicketId";
 
-            using var connection = _sqlConnectionFactory.SqlConnection();
+            await using var connection = _sqlConnectionFactory.Connection();
 
             await connection.ExecuteAsync(update, ticketReadModel).ConfigureAwait(false);
         }
@@ -112,7 +113,7 @@ namespace Tactify.Sql.Repositories.ReadModels
                 SET [IsClosed] = @IsClosed, [Sequence] = @Sequence
                 WHERE [TicketId] = @TicketId";
 
-            using var connection = _sqlConnectionFactory.SqlConnection();
+            await using var connection = _sqlConnectionFactory.Connection();
 
             await connection.ExecuteAsync(update, ticketReadModel).ConfigureAwait(false);
         }

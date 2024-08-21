@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Tacta.Connection;
 using Tacta.EventStore.Repository;
 using Tactify.Core.ReadModels.ActivityReadModels;
 using Tactify.Core.ReadModels.ActivityReadModels.Repositories;
@@ -7,11 +8,11 @@ namespace Tactify.Sql.Repositories.ReadModels
 {
     public sealed class ActivityReadModelRepository : ProjectionRepository, IActivityReadModelRepository
     {
-        private readonly ISqlConnectionFactory _sqlConnectionFactory;
+        private readonly IConnectionFactory _sqlConnectionFactory;
 
         private static readonly string _tableName = "[dbo].[ActivityReadModel]";
 
-        public ActivityReadModelRepository(ISqlConnectionFactory sqlConnectionFactory) : base(sqlConnectionFactory, _tableName)
+        public ActivityReadModelRepository(IConnectionFactory sqlConnectionFactory) : base(sqlConnectionFactory, _tableName)
         {
             _sqlConnectionFactory = sqlConnectionFactory;
         }
@@ -20,7 +21,7 @@ namespace Tactify.Sql.Repositories.ReadModels
         {
             var insert = $"INSERT INTO {_tableName} VALUES (@CreatedAt, @CreatedBy, @Name, @Description, @Sequence)";
 
-            using var connection = _sqlConnectionFactory.SqlConnection();
+            await using var connection = _sqlConnectionFactory.Connection();
 
             await connection.ExecuteAsync(insert, activityReadModel).ConfigureAwait(false);
         }
@@ -31,7 +32,7 @@ namespace Tactify.Sql.Repositories.ReadModels
                 @$"SELECT TOP (100) [CreatedAt], [CreatedBy], [Name], [Description], [Sequence] 
                 FROM {_tableName} ORDER BY [Sequence] DESC";
 
-            using var connection = _sqlConnectionFactory.SqlConnection();
+            await using var connection = _sqlConnectionFactory.Connection();
 
             return await connection.QueryAsync<ActivityReadModel>(select).ConfigureAwait(false);
         }

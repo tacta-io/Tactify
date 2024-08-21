@@ -1,5 +1,6 @@
 ﻿using Tacta.EventStore.Domain;
 using Tacta.EventStore.Repository;
+using Tacta.EventStore.Repository.Models;
 using Tactify.Core.Boards;
 using Tactify.Core.Boards.Exceptions;
 using Tactify.Core.Boards.Repositories;
